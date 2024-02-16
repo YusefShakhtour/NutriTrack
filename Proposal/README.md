@@ -26,7 +26,7 @@ Our wireframes showcase both mobile and desktop views, emphasizing our mobile-fi
 
 These wireframes guide the development of NutriTrack, focusing on a user-centric design philosophy.
 ### Desktop Wireframes
-!(https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/blob/main/Proposal/Wireframes/DesktopWireframes.png)
+![desktop wireframes](https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/blob/main/Proposal/Wireframes/DesktopWireframes.png)
 ### Mobile Pages Wireframes
-!(https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/blob/main/Proposal/Wireframes/MobilePagesWireframes.png)
+![Mobile Pages Wireframes](https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/blob/main/Proposal/Wireframes/MobilePagesWireframes.png)
 
