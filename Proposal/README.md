@@ -1,5 +1,5 @@
 # Proposal
-## NutriTrack
+## NutriTrack- Personalized Calorie and Nutrition Management
 
 In a world where health and fitness are increasingly at the forefront of people’s minds, there is a growing need for tools that can help individuals manage their dietary habits effectively. NutriTrack is a proposed Progressive Web Application (PWA) designed to address this need by providing a user-friendly platform for tracking nutritional intake and managing diet goals.
 
