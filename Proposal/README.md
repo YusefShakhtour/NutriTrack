@@ -43,5 +43,7 @@ These wireframes guide the development of NutriTrack, focusing on a user-centric
 
 ### Contributions
 Eman Amodia - Submission + video, cleaning/expanding proposal writeup.
-Nour Amara - proposal writeup and repository setup
+
+Nour Amara - proposal writeup and repository setup.
+
 Yusef Shakhtour - Wireframe designs, idea proposals, and proposal proofread.
