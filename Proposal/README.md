@@ -32,7 +32,7 @@ NutriTrack will provide users with a prepopulated recipe list of common food ite
 Our wireframes showcase both mobile and desktop views, emphasizing our mobile-first approach while ensuring a responsive and adaptable design for desktop use. The wireframes depict key functionalities such as recipe addition, dashboard analytics, and account management.
 + "Login/Create Account" view: A secure and simple entry point to personal dashboards, allowing for account creation and login.
 + "Dashboard" view: An interactive display of graphs and progress meters, offering users a snapshot of their nutritional status. The pie chart shows the current distribution of macronutrient consumption. The bar chart displays the user’s current calorie and macro consumption against their set goals. The line graph displays consumption over multiple days, visualizing a user’s consistency.
-"Add Recipe" view: A straightforward interface for entering recipe details and macro-nutrient values.
++ "Add Recipe" view: A straightforward interface for entering recipe details and macro-nutrient values.
 
 
 These wireframes guide the development of NutriTrack, focusing on a user-centric design philosophy.
