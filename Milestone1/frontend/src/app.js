@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 // Designate the static folder as serving static resources
-app.use(express.static(__dirname + '/static/addRecipe.html'));
+app.use(express.static(__dirname + '/static'));
 
 
 // As our server to listen for incoming connections
