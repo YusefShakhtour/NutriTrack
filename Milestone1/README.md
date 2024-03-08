@@ -1,26 +1,39 @@
 # [Project Title]
-## Group [X]: Milestone 1
+## Group [M]: Milestone 1
 
 
 [ Milestone Report Here ]
 
+Pages | Status | Wireframe
+------|--------|---------
+Profile | 70% | |
+AddRecipe | 80% | [Wireframe](https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/tree/main/Proposal/Wireframes) |
+Login | 90% | [Wireframe](https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/tree/main/Proposal/Wireframes) |
+Dashboard | 50% | [Wireframe](https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/tree/main/Proposal/Wireframes) |
 
+Method | Route | Description
+-------|-------|-------------
+||
+||
+||
+||
 
 ### Team Member Contributions
 
-#### [Name of Team Member 1]
+#### [Yusef]
+
+* HTML/CSS for Login Page
+* HTML/CSS for Add Recipe Page
+* HTML/CSS for Dashboard Page 
+* HTML/CSS for Profile Page
+
+#### [Eman]
 
 * Contribution 1
 * Contribution 2
 * ...
 
-#### [Name of Team Member 2]
-
-* Contribution 1
-* Contribution 2
-* ...
-
-#### [Name of Team Member 3]
+#### [Nour]
 
 * Contribution 1
 * Contribution 2
@@ -28,6 +41,6 @@
 
 #### Milestone Effort Contribution
 
-Team Member 1 | Team Member 2 | Team Member 3
+Yusef | Eman | Nour
 ------------- | ------------- | -------------
-X%            | Y%            | Z%
+33%            | Y%            | Z%
