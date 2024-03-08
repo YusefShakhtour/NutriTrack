@@ -1,8 +1,11 @@
-# [Project Title]
+# [NutriTrack]
 ## Group [M]: Milestone 1
 
 
-[ Milestone Report Here ]
+[ Milestone Report]
+
+Currently, our HTML pages are mostly done with the majority of them needing small styling pages to make them look more 
+aesthetically pleasing.
 
 Pages | Status | Wireframe
 ------|--------|---------
