@@ -7,8 +7,33 @@ router.get('/', (req, res) => {
   res.json({ your_api: 'it works' });
 });
 
+// Login
+router.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const user = Object.values(users).find(
+    (u) => u.email === email && u.password === password
+  );
+
+  if (user) {
+    res.json({ success: true, message: 'Login successful' });
+  } else {
+    res.json({ success: false, message: 'Invalid credentials' });
+  }
+});
+
 // Create user
 router.post('/users', (req, res) => {
+  const { name, email, password } = req.body;
+  const user = {
+    id: Object.keys(users).length + 1,
+    name,
+    email,
+    password,
+    recipes: []
+  };
+  users[user.id] = user;
+  res.json(user);
 });
 
 // Update a user
