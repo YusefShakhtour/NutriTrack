@@ -38,9 +38,8 @@ Method | Route | Description
 
 #### [Nour]
 
-* Contribution 1
-* Contribution 2
-* ...
+* API_Client_Mock.js: code for the api client mock  
+
 
 #### Milestone Effort Contribution
 
