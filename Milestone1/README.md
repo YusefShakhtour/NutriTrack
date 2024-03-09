@@ -16,10 +16,20 @@ Dashboard | 50% | [Wireframe](https://github.ncsu.edu/engr-csc342/csc342-2024Spr
 
 Method | Route | Description
 -------|-------|-------------
-||
-||
-||
-||
+|`get`|`/`||
+|`post`|`/login`|Recieves an email and a password|
+|`post`|`/users`|Recieves a user object|
+|`put`|`/users/:userId`|Updates a user given an ID|
+|`get`|`/users`|Retrieves an array of all users|
+|`get`|`/users/:userId`|Retrieves a user given an ID|
+|`delete`|`/users/:userId`|Deletes a user given an ID|
+|`post`|`/recipes`|Creates a new recipe|
+|`put`|`/recipes/:recipeId`|Updates a recipe given an ID|
+|`get`|`/recipes`|Retrieves all recipes|
+|`get`|`/recipes/:recipeId`|Retrieves a recipe given an ID|
+|`delete`|`/recipes/:recipeId`|Deletes a recipe given an ID|
+|`get`|`/users/:userId/recipes`|Retrieves a user's recipes|
+
 
 ### Team Member Contributions
 
@@ -32,9 +42,8 @@ Method | Route | Description
 
 #### [Eman]
 
-* Contribution 1
-* Contribution 2
-* ...
+* REST API Sketch
+* Login and create user functionality (no validation)
 
 #### [Nour]
 
@@ -45,4 +54,4 @@ Method | Route | Description
 
 Yusef | Eman | Nour
 ------------- | ------------- | -------------
-33%            | Y%            | Z%
+33%            | 33%            | 33%
