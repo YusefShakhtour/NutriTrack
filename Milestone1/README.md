@@ -14,21 +14,23 @@ AddRecipe | 80% | [Wireframe](https://github.ncsu.edu/engr-csc342/csc342-2024Spr
 Login | 90% | [Wireframe](https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/tree/main/Proposal/Wireframes) |
 Dashboard | 50% | [Wireframe](https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/tree/main/Proposal/Wireframes) |
 
-Method | Route | Description
--------|-------|-------------
-|`get`|`/`||
-|`post`|`/login`|Recieves an email and a password|
-|`post`|`/users`|Recieves a user object|
-|`put`|`/users/:userId`|Updates a user given an ID|
-|`get`|`/users`|Retrieves an array of all users|
-|`get`|`/users/:userId`|Retrieves a user given an ID|
-|`delete`|`/users/:userId`|Deletes a user given an ID|
-|`post`|`/recipes`|Creates a new recipe|
-|`put`|`/recipes/:recipeId`|Updates a recipe given an ID|
-|`get`|`/recipes`|Retrieves all recipes|
-|`get`|`/recipes/:recipeId`|Retrieves a recipe given an ID|
-|`delete`|`/recipes/:recipeId`|Deletes a recipe given an ID|
-|`get`|`/users/:userId/recipes`|Retrieves a user's recipes|
+Roughly 40% of our API routes are functional.
+
+Method | Route | Description | Working?
+-------|-------|-------------|---------
+|`get`|`/`|||
+|`post`|`/login`|Recieves an email and a password|Yes|
+|`post`|`/users`|Recieves a user object|Yes|
+|`put`|`/users/:userId`|Updates a user given an ID|No|
+|`get`|`/users`|Retrieves an array of all users|Yes|
+|`get`|`/users/:userId`|Retrieves a user given an ID|Yes|
+|`delete`|`/users/:userId`|Deletes a user given an ID|No|
+|`post`|`/recipes`|Creates a new recipe|No|
+|`put`|`/recipes/:recipeId`|Updates a recipe given an ID|No|
+|`get`|`/recipes`|Retrieves all recipes|Yes|
+|`get`|`/recipes/:recipeId`|Retrieves a recipe given an ID|Yes|
+|`delete`|`/recipes/:recipeId`|Deletes a recipe given an ID|No|
+|`get`|`/users/:userId/recipes`|Retrieves a user's recipes|No|
 
 
 ### Team Member Contributions
