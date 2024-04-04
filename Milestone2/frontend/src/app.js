@@ -1,7 +1,7 @@
 const express = require('express');
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = 3000; //process.env.PORT;
 
 // Designate the static folder as serving static resources
 app.use(express.static(__dirname + '/static'));

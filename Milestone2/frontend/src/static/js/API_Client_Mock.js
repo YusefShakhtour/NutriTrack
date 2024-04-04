@@ -1,5 +1,5 @@
 // Code for the API Client Mock
-
+import HTTPClient from "./HTTPClient.js";
 const API_BASE = '/api';
 
 function checkResponse(res) {
@@ -14,20 +14,17 @@ function handleError(error) {
   throw error;
 }
 
-const login = (credentials) => {
-  return fetch(`${API_BASE}/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(credentials)
-  })
-    .then(checkResponse)
-    .then(res => {
-      return res.json();
-    })
-    .catch(handleError);
+//login 
+const login = (username, password) => {
+  console.log(username, password)
+  const data = {
+    username: username,
+    password: password
+  }
+  return HTTPClient.post(`${API_BASE}/login`, data);
 };
+
+
 
 // get all users
 const getUsers = () => {
