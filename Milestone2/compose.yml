@@ -24,11 +24,9 @@ services:
       - ./frontend/src:/app/src
     environment:
       - PORT=80
-    env_file:
-      - .env
 
   database:
-    image: mariadb:latest
+    image: mariadb:10.6
     restart: unless-stopped
     ports:
       # Make the DB accessible from outside of the Docker network if needed

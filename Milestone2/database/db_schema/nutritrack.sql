@@ -24,19 +24,6 @@ INSERT INTO `user` (`usr_id`, `usr_first_name`, `usr_last_name`, `usr_username`,
 	(1, 'Stu', 'Dent', 'student', '83d9bdb5e20f3571b087db9aabf190a296741c3e864d7742f35658cfccc1b79c4599aad25084aa9a28c649a50c92244227b3e53e197621301d619d1ea01873c4', '48c8947f69c054a5caa934674ce8881d02bb18fb59d5a63eeaddff735b0e9', 'https://robohash.org/veniamdoloresenim.png?size=64x64&set=set1'),
 	(2, 'Gra', 'Duate', 'graduate', 'e289219c34f9a32ebc82393f09719b7f34872de95463242b5ffe8bb4b11a5fe7d454f9f5d082c8207c5d69b220ba06624b4bb15ffa05cc7d7d53c43f9e96da6a', '801e87294783281ae49fc8287a0fd86779b27d7972d3e84f0fa0d826d7cb67dfefc', 'https://robohash.org/nullaautemin.png?size=64x64&set=set1');
 
-/* USER TO RECIPE */
-CREATE TABLE IF NOT EXISTS `user_recipes` (
-  `user_id` int(11) unsigned NOT NULL,
-  `recipe_id` int(11) unsigned NOT NULL,
-) ENGINE=MariaDB DEFAULT CHARSET=utf8mb4;
-
-DELETE FROM `user_recipes`;
-INSERT INTO `user_recipes` (`user_id`, `recipe_id`) VALUES
-  (1, 1),
-  (1, 2),
-  (2, 3),
-  (2, 4);
-
 /* RECIPES */
 CREATE TABLE IF NOT EXISTS `recipes` (
   `rec_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -44,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `rec_fat` int(5) unsigned NOT NULL DEFAULT '0',
   `rec_protein` int(5) unsigned NOT NULL DEFAULT '0',
   `rec_carbs` int(5) unsigned NOT NULL DEFAULT '0',
-  `rec_cals` int(5) unsigned NOT NULL DEFAULT '0'
+  `rec_cals` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rec_id`)
 ) ENGINE=MariaDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -60,13 +48,31 @@ INSERT INTO `recipes` (`rec_id`, `rec_name`, `rec_fat`, `rec_protein`, `rec_carb
             (1, 'Mac N Cheese', 5, 10, 12, 250),
             (2, 'Chicken Alfredo', 8, 15, 15, 300),
             (3, 'Spaghetti', 6, 7, 12, 300),
-            (4, 'Scrambled Eggs', 6, 8, 3, 150)
+            (4, 'Scrambled Eggs', 6, 8, 3, 150);
+
+/* USER TO RECIPE */
+CREATE TABLE IF NOT EXISTS `user_recipes` (
+  `user_recipe_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `recipe_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`user_recipe_id`)
+) ENGINE=MariaDB DEFAULT CHARSET=utf8mb4;
+
+DELETE FROM `user_recipes`;
+INSERT INTO `user_recipes` (`user_recipe_id`, `user_id`, `recipe_id`) VALUES
+  (1, 1, 1),
+  (2, 1, 2),
+  (3, 2, 3),
+  (4, 2, 4);
 
 /* MEALS/CONSUMPTION */
 CREATE TABLE IF NOT EXISTS `meals` (
+  `meals_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
   `meal_num` int(11) unsigned NOT NULL,
   `rec_id` int(11) unsigned NOT NULL,
+   PRIMARY KEY (`meals_id`)
+
 ) ENGINE=MariaDB DEFAULT CHARSET=utf8mb4;
 
 /**
@@ -78,22 +84,24 @@ CREATE TABLE IF NOT EXISTS `meals` (
   be the current day.
 **/
 DELETE FROM `meals`;
-INSERT INTO `meals` (`user_id`, `meal_num`, `rec_id`) VALUES
-  (1, 1, 1),
-  (1, 1, 2),
-  (1, 2, 1),
-  (2, 1, 3),
-  (2, 1, 4),
+INSERT INTO `meals` (`meals_id`, `user_id`, `meal_num`, `rec_id`) VALUES
+  (1, 1, 1, 1),
+  (2, 1, 1, 2),
+  (3, 1, 2, 1),
+  (4, 2, 1, 3),
+  (5, 2, 1, 4);
 
 /* STATS */
 CREATE TABLE IF NOT EXISTS `stats` (
+  `stats_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
   `user_height` int(6) unsigned NOT NULL,
   `user_weight` int(6) unsigned NOT NULL,
   `cal_goal` int(5) unsigned NOT NULL,
   `protein_goal` int(5) unsigned NOT NULL,
   `carb_goal` int(5) unsigned NOT NULL,
-  `fat_goal` int(5) unsigned NOT NULL
+  `fat_goal` int(5) unsigned NOT NULL,
+   PRIMARY KEY (`stats_id`)
 ) ENGINE=MariaDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -105,6 +113,6 @@ CREATE TABLE IF NOT EXISTS `stats` (
     30 grams of carbs, and 25g of fat per day respectively.
 **/
 DELETE FROM `stats`;
-INSERT INTO `stats` (`user_id`, `user_height`, `user_weight`, `cal_goal`, `protein_goal`, `carb_goal`, `fat_goal`) VALUES
-    (1, 72, 180, 2000, 150, 50, 20),
-    (2, 68, 150, 1300, 120, 30, 25)
+INSERT INTO `stats` (`stats_id`, `user_id`, `user_height`, `user_weight`, `cal_goal`, `protein_goal`, `carb_goal`, `fat_goal`) VALUES
+    (1, 1, 72, 180, 2000, 150, 50, 20),
+    (2, 2, 68, 150, 1300, 120, 30, 25);
