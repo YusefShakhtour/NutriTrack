@@ -1,11 +1,13 @@
 const router = require('express').Router();
 const crypto = require('crypto');
 const cookieParser = require('cookie-parser');
-const { users, recipes } = require('./data');
 
+const RecipeDAO = require('./db/RecipeDAO');
+const UserDAO = require('./db/UserDAO');
+const StatsDAO = require('./db/StatsDAO');
 router.use(cookieParser());
 
-const {TokenMiddleware, generateToken, removeToken} = require('../../middleware/TokenMiddleware');
+const { TokenMiddleware, generateToken, removeToken } = require('./middleware/TokenMiddleware');
 
 
 // Default
@@ -13,147 +15,135 @@ router.get('/', (req, res) => {
   res.json({ your_api: 'it works' });
 });
 
+/**
+ * USER ENDPOINTS
+ */
+
 // Login
-router.post('/login', (req, res) => {
+router.post('/users/login', (req, res) => {
   if (req.body.username && req.body.password) {
-    console.log("Login attempt with username: " + req.body.username + " and password: " + req.body.password)
-    getUserByCredentials(req.body.username, req.body.password)
-      .then(user => {
-        console.log("User logged in successfully:", user);
-        let result ={
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          recipe: user.recipe
-        }
-        generateToken(req, res, user);
-        res.json(result);
-      })
-      .catch(error => {
-        res.status(error.code).json({ error: error.message });
-      });
+    UserDAO.getUserByCredentials(req.body.username, req.body.password).then(user => {
+      let result = {
+        user: user
+      }
+
+      generateToken(req, res, user);
+
+      res.json(result);
+    }).catch(err => {
+      console.log(err);
+      res.status(err.code).json({ error: err.message });
+    });
   }
-}); 
-   
-   
-
-  
-function getUserByCredentials(username, password) {
-  console.log("Looking for user: ", username );
-  return new Promise((resolve, reject) => {
-    const user = Object.values(users).find(user => user.username == username);
-    console.log("User found: ", user ? user.username : "none");
-    if (user) { // we found our user
-      crypto.pbkdf2(password, user.salt, 100000, 64, 'sha512', (err, derivedKey) => {
-        if (err) { //problem computing digest, like hash function not available
-          reject({code: 400, message: "Error: " +err});
-        }
-
-        const digest = derivedKey.toString('hex');
-        if (user.password == digest) {
-          resolve(getFilteredUser(user));
-        }
-        else {
-          reject({code: 401, message: "Invalid username or password"});
-        }
-      });
-    }
-    else { // if no user with provided username
-      reject({code: 401, message: "No such user"});
-    }
-  });
-
-} 
-
-function getFilteredUser(user) {
-  return {
-    "id": user.id,
-    "username": user.username,
-    "email": user.email,
-    "recipe": user.recipe
+  else {
+    res.status(401).json({ error: 'Not authenticated' });
   }
-}
-
+});
 
 
 // Create user
 router.post('/users', (req, res) => {
-  const { name, email, password } = req.body;
-  const user = {
-    id: Object.keys(users).length + 1,
-    name,
-    email,
-    password,
-    recipes: []
-  };
-  users[user.id] = user;
-  res.json(user);
+  let newUser = req.body;
+  UserDAO.createUser(newUser).then(user => {
+    res.json(user);
+  })
+    .catch(err => {
+      res.status(500).json({ error: 'Internal server error' });
+    });
 });
 
-// Update a user
-router.put('/users/:userId', (req, res) => {
-});
-
-// Get all users
-router.get('/users', (req, res) => {
-  res.json(Object.values(users));
-});
 
 // Get a specific user
-router.get('/users/:userId', (req, res) => {
-  const user = users[req.params.userId];
+router.get('/users/:userId', TokenMiddleware, (req, res) => {
+  let user = UserDAO.getUserById(userId);
   if (user) {
     res.json(user);
   }
   else {
-    res.status(404).json({ error: "User not found" });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Delete a user
-router.delete('/users/:userId', (req, res) => {
+router.post('/users/logout', (req, res) => {
+  removeToken(req, res);
+
+  res.json({ success: true });
 });
 
-// Create recipe
-router.post('/recipes', (req, res) => {
-});
+/**
+ * RECIPE ENDPOINTS
+ */
 
-// Update a recipe
-router.put('/recipes/:recipeId', (req, res) => {
-});
-
-// Get all recipes
-router.get('/recipes', (req, res) => {
-  res.json(Object.values(recipes));
-});
-
-// Get a specific recipe
-router.get('/recipes/:recipeId', (req, res) => {
-  const recipe = recipes[req.params.recipeId];
-  if (recipe) {
-    res.json(recipe);
-  }
-  else {
-    res.status(404).json({ error: "Recipe not found" });
-  }
-});
-
-// Delete a recipe
-router.delete('/recipes/:recipeId', (req, res) => {
-});
-
-// Get all recipes for a user
+// Get all recipes for a user given their id
 router.get('/users/:userId/recipes', (req, res) => {
-  const userId = parseInt(req.params.userId);
-
-  // Verify that the user exists
-  const user = users[userId];
-  if (!user) {
-    res.status(404).json({ error: "User not found" });
-  }
-
-  const results = Object.values(recipes).filter(recipe => recipe.userId === userId);
-  res.json(results);
+  let userId = req.params.userId;
+  RecipeDAO.getRecipesByUserId(userId).then(recipes => {
+    res.json(recipes);
+  }).catch(err => {
+    res.status(500).json({ error: 'Internal server error' });
+  });
 });
+
+// Get a specific recipe given a recipe id
+router.get('users/recipes/:recipeId', (req, res) => {
+  let recipeId = req.params.recipeId;
+  RecipeDAO.getRecipeById(recipeId).then(recipe => {
+    res.json(recipe);
+  }).catch(err => {
+    res.status(500).json({ error: 'Internal server error' });
+  });
+});
+
+// Create a recipe
+router.post('/users/recipes', (req, res) => {
+  let newRecipe = req.body;
+  RecipeDAO.createRecipe(newRecipe).then(recipe => {
+    res.json(newRecipe);
+  }).catch(err => {
+    res.status(500).json({ error: 'Internal server error' });
+  });
+});
+
+/**
+ * STATS ENDPOINTS
+ */
+
+//Get a users' stats
+router.get('/users/stats/:userId', (req, res) => {
+  let userId = req.params.userId;
+  StatsDAO.getStatsByUserId(userId).then(stats => {
+    res.json(stats);
+  }).catch(err => {
+    res.status(500).json({ error: 'Internal server error' });
+  });
+});
+
+//Create user stats
+router.post('/user/stats', (req, res) => {
+  let stats = req.body;
+  StatsDAO.createStats(stats).then(stats => {
+    res.json(stats);
+  }).catch(err => {
+    res.status(500).json({ error: 'Internal server error' });
+  });
+});
+
+
+//Update a users' stats
+router.put('/user/stats', (req, res) => {
+  let stats = req.body;
+  StatsDAO.updateStats(stats).then(stats => {
+    res.json(stats);
+  }).catch(err => {
+    res.status(500).json({ error: 'Internal server error' });
+  })
+})
+
+
+/**
+ * MEAL ENDPOINTS
+ */
+
+// TODO: Implement meal endpoints
 
 module.exports = router;
