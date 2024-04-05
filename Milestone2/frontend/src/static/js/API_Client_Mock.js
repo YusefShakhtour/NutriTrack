@@ -99,19 +99,18 @@ const deleteUser = (userId) => {
 };
 
 // create recipe
-const createRecipe = (recipe) => {
-  return fetch(`${API_BASE}/users/recipes`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(recipe)
-  })
-    .then(checkResponse)
-    .then(res => {
-      return res.json();
-    })
-    .catch(handleError);
+const createRecipe = (name, fat, protein, carbs, cals, user_id) => {
+  const data = {
+    name : name,
+    fat : fat,
+    protein : protein,
+    carbs : carbs,
+    cals : cals,
+    user_id : user_id
+  }
+  console.log(data);
+
+  return HTTPClient.post(`${API_BASE}/users/recipes`, data);
 };
 
 // update recipe
@@ -145,7 +144,7 @@ const getRecipes = () => {
 
 // get recipe by id
 const getRecipebyId = (recipeId) => {
-  return fetch(API_BASE + `users//recipes/${recipeId}`)
+  return fetch(API_BASE + `/users/${recipeId}/recipes`)
     .then(checkResponse)
     .then(res => {
       return res.json();
