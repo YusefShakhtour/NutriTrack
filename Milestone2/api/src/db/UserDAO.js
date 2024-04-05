@@ -34,7 +34,7 @@ function getUserByUsername(username) {
 
 function getUserById(userId) {
   return db.query('SELECT * FROM user WHERE user_id=?', [userId]).then(({ results }) => {
-    return results.map(user => new User(useer));;
+    return results.map(user => new User(user));;
   });
 }
 

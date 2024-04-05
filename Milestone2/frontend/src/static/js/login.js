@@ -12,7 +12,7 @@ loginButton.addEventListener('click', () => {
     api.login(username.value, password.value)
         .then(response => {
             console.log('User logged in successfully:', response);
-            window.location.href = 'dashboard.html';
+            window.location.href = '/dashboard.html';
         })
         .catch(error => {
             errorBox.classList.remove('hidden');

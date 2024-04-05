@@ -41,7 +41,7 @@ router.post('/users/login', (req, res) => {
 });
 
 
-// Create user    **Change this  
+// Create user    **Working
 router.post('/users', (req, res) => {
   let first_name = req.body.first_name;
   let last_name = req.body.last_name;
@@ -68,7 +68,7 @@ router.post('/users', (req, res) => {
   }
 
   UserDAO.createUser(newUser).then(user => {
-    res.json(user);
+    res.json("Success");
   })
     .catch(err => {
       res.status(500).json({ error: 'Internal server error' });
@@ -121,7 +121,7 @@ router.get('users/recipes/:rec_id', (req, res) => {
   });
 });
 
-// Create a recipe  **Test Again
+// Create a recipe  **Working
 router.post('/users/recipes', (req, res) => {
   let name = req.body.name;
   console.log(name);

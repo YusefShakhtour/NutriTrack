@@ -21,7 +21,7 @@ const login = (username, password) => {
     username: username,
     password: password
   }
-  return HTTPClient.post(`${API_BASE}/login`, data);
+  return HTTPClient.post(`${API_BASE}/users/login`, data);
 };
 
 
@@ -56,19 +56,18 @@ const getUsersbyId = (userId) => {
 
 
 // create user
-const createUser = (user) => {
-  return fetch(`${API_BASE}/users`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(user)
-  })
-    .then(checkResponse)
-    .then(res => {
-      return res.json();
-    })
-    .catch(handleError);
+const createUser = (firstName, lastName, username, password) => {
+    const data = {
+      first_name : firstName,
+      last_name : lastName,
+      username : username,
+      password : password
+
+    }
+    console.log(data);
+
+    return HTTPClient.post(`${API_BASE}/users`, data);
+
 };
 
 // update user
@@ -101,7 +100,7 @@ const deleteUser = (userId) => {
 
 // create recipe
 const createRecipe = (recipe) => {
-  return fetch(`${API_BASE}/recipes`, {
+  return fetch(`${API_BASE}/users/recipes`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -146,7 +145,7 @@ const getRecipes = () => {
 
 // get recipe by id
 const getRecipebyId = (recipeId) => {
-  return fetch(API_BASE + `/recipes/${recipeId}`)
+  return fetch(API_BASE + `users//recipes/${recipeId}`)
     .then(checkResponse)
     .then(res => {
       return res.json();
