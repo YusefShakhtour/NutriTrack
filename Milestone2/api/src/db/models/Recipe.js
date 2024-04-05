@@ -5,7 +5,7 @@ module.exports = class Recipe {
   fat = null;
   protein = null;
   carbs = null;
-  calories = null;
+  cals = null;
 
   constructor(data) {
     this.rec_id = data.rec_id;
@@ -14,6 +14,6 @@ module.exports = class Recipe {
     this.fat = data.fat;
     this.protein = data.protein;
     this.carbs = data.carbs;
-    this.calories = data.calories;
+    this.cals = data.cals;
   }
 }

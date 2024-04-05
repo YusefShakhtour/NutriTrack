@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
  * USER ENDPOINTS
  */
 
-// Login
+// Login    ***Working
 router.post('/users/login', (req, res) => {
   if (req.body.username && req.body.password) {
     UserDAO.getUserByCredentials(req.body.username, req.body.password).then(user => {
@@ -41,9 +41,30 @@ router.post('/users/login', (req, res) => {
 });
 
 
-// Create user
+// Create user    **Change this  
 router.post('/users', (req, res) => {
-  let newUser = req.body;
+  let first_name = req.first_name;
+  let last_name = req.last_name;
+  let username = req.username;
+  let unhashed_password = req.password
+
+  let salt = crypto.randomBytes(16).toString('hex');
+  
+  crypto.pbkdf2(unhashed_password, salt, 100000, 64, 'sha256', (err, derivedKey) => {
+    if (err) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+    let password = derivedKey.toString('hex');
+  
+
+  let newUser = {
+    first_name: first_name,
+    last_name:  last_name,
+    username: username,
+    password: password,
+    salt: salt,
+  }
+
   UserDAO.createUser(newUser).then(user => {
     res.json(user);
   })
@@ -51,10 +72,12 @@ router.post('/users', (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     });
 });
+});
 
 
-// Get a specific user
+// Get a specific user  ***Made fix, test again 
 router.get('/users/:userId', TokenMiddleware, (req, res) => {
+  let userId = req.params.userId;
   let user = UserDAO.getUserById(userId);
   if (user) {
     res.json(user);
@@ -64,6 +87,8 @@ router.get('/users/:userId', TokenMiddleware, (req, res) => {
   }
 });
 
+
+//Logout  **Working
 router.post('/users/logout', (req, res) => {
   removeToken(req, res);
 
@@ -74,7 +99,7 @@ router.post('/users/logout', (req, res) => {
  * RECIPE ENDPOINTS
  */
 
-// Get all recipes for a user given their id
+// Get all recipes for a user given their id  **Working
 router.get('/users/:userId/recipes', (req, res) => {
   let userId = req.params.userId;
   RecipeDAO.getRecipesByUserId(userId).then(recipes => {
@@ -84,21 +109,50 @@ router.get('/users/:userId/recipes', (req, res) => {
   });
 });
 
-// Get a specific recipe given a recipe id
-router.get('users/recipes/:recipeId', (req, res) => {
-  let recipeId = req.params.recipeId;
-  RecipeDAO.getRecipeById(recipeId).then(recipe => {
+// Get a specific recipe given a recipe id    **Not working
+router.get('users/recipes/:rec_id', (req, res) => {
+  let rec_id = req.params.rec_id;
+  RecipeDAO.getRecipeById(rec_id).then(recipe => {
     res.json(recipe);
   }).catch(err => {
     res.status(500).json({ error: 'Internal server error' });
   });
 });
 
-// Create a recipe
+// Create a recipe  **Test Again
 router.post('/users/recipes', (req, res) => {
-  let newRecipe = req.body;
-  RecipeDAO.createRecipe(newRecipe).then(recipe => {
-    res.json(newRecipe);
+  let name = req.body.name;
+  console.log(name);
+
+  let fat = req.body.fat;
+  console.log(fat);
+
+  let protein = req.body.protein;
+  console.log(protein);
+
+  let carbs = req.body.carbs;
+  console.log(carbs);
+
+  let cals = req.body.cals;
+  console.log(cals);
+
+  let user_id = req.body.user_id;
+  console.log(user_id);
+
+
+  let recipe = {
+    user_id : user_id,
+    name : name,
+    fat : fat,
+    protein : protein,
+    carbs : carbs,
+    cals : cals
+  }
+  console.log(recipe);
+
+  
+  RecipeDAO.createRecipe(recipe).then(recipe => {
+    res.json(recipe);
   }).catch(err => {
     res.status(500).json({ error: 'Internal server error' });
   });
@@ -108,7 +162,7 @@ router.post('/users/recipes', (req, res) => {
  * STATS ENDPOINTS
  */
 
-//Get a users' stats
+//Get a users' stats  **Working
 router.get('/users/stats/:userId', (req, res) => {
   let userId = req.params.userId;
   StatsDAO.getStatsByUserId(userId).then(stats => {
@@ -129,8 +183,9 @@ router.post('/user/stats', (req, res) => {
 });
 
 
-//Update a users' stats
-router.put('/user/stats', (req, res) => {
+//Update a users' stats   **Not updating
+//Whose stats are being updated? I think we need an id paramter in the url
+router.put('/users/stats', (req, res) => {
   let stats = req.body;
   StatsDAO.updateStats(stats).then(stats => {
     res.json(stats);

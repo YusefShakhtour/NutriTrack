@@ -20,9 +20,9 @@ function getRecipesByUserId(userId) {
 }
 
 function createRecipe(recipe) {
-  return db.query('INSERT INTO recipes (user_id, name, fat, protein, carbs, calories) VALUES (?, ?, ?, ?, ?, ?)',
-    [recipe.user_id, recipe.name, recipe.fat, recipe.carbs, recipe.protein, recipe.calories]).then(({ results }) => {
-      getRecipeB(results.insertId);
+  return db.query('INSERT INTO recipes (name, fat, protein, carbs, cals, user_id) VALUES (?, ?, ?, ?, ?, ?)',
+    [recipe.name, recipe.fat, recipe.carbs, recipe.protein, recipe.cals, recipe.user_id]).then(({ results }) => {
+      getRecipeById(results.insertId);
     });
 }
 
