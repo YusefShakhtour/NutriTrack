@@ -43,23 +43,25 @@ router.post('/users/login', (req, res) => {
 
 // Create user    **Change this  
 router.post('/users', (req, res) => {
-  let first_name = req.first_name;
-  let last_name = req.last_name;
-  let username = req.username;
-  let unhashed_password = req.password
+  let first_name = req.body.first_name;
+  let last_name = req.body.last_name;
+  let username = req.body.username;
+  let unhashed_password = req.body.password;
+
+  console.log(first_name);
+  console.log(last_name);
+  console.log(username);
+  console.log(unhashed_password);
 
   let salt = crypto.randomBytes(16).toString('hex');
-  
-  crypto.pbkdf2(unhashed_password, salt, 100000, 64, 'sha256', (err, derivedKey) => {
-    if (err) {
-      res.status(500).json({ error: 'Internal server error' });
-    }
-    let password = derivedKey.toString('hex');
-  
+  let password = crypto.pbkdf2Sync(unhashed_password, salt, 100000, 64, 'sha512').toString('hex');
+
+  console.log(salt);
+  console.log(password);
 
   let newUser = {
     first_name: first_name,
-    last_name:  last_name,
+    last_name: last_name,
     username: username,
     password: password,
     salt: salt,
@@ -72,7 +74,7 @@ router.post('/users', (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     });
 });
-});
+
 
 
 // Get a specific user  ***Made fix, test again 
@@ -141,16 +143,16 @@ router.post('/users/recipes', (req, res) => {
 
 
   let recipe = {
-    user_id : user_id,
-    name : name,
-    fat : fat,
-    protein : protein,
-    carbs : carbs,
-    cals : cals
+    user_id: user_id,
+    name: name,
+    fat: fat,
+    protein: protein,
+    carbs: carbs,
+    cals: cals
   }
   console.log(recipe);
 
-  
+
   RecipeDAO.createRecipe(recipe).then(recipe => {
     res.json(recipe);
   }).catch(err => {

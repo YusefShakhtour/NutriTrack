@@ -15,7 +15,7 @@ function getUserByCredentials(username, password) {
 
 function createUser(user) {
   return db.query('INSERT INTO user (first_name, last_name, username, avatar, salt, password) VALUES (?, ?, ?, ?, ?, ?)',
-    [user.first_name, user.last_nname, user.username, user.avatar, user.salt, user.password]).then(({ results }) => {
+    [user.first_name, user.last_name, user.username, user.avatar, user.salt, user.password]).then(({ results }) => {
       getUserById(results.insertId);
     });
 }
