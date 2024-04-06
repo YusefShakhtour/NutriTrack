@@ -1,5 +1,5 @@
 const db = require('./DBConnection.js');
-const User = require('./models/user.js');
+const User = require('./models/User');
 
 function getUserByCredentials(username, password) {
   return db.query('SELECT * FROM user WHERE username=?', [username]).then(({ results }) => {
