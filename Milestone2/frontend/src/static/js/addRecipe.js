@@ -9,11 +9,14 @@ let calories = document.querySelector("#calories");
 let addRecipeBtn = document.querySelector("#addRecipeBtn");
 
 //TODO Change to current user session
-let currentUser = 1;
+api.getCurrentUser().then(user => {
+    localStorage.setItem("userId", user.user_id);
+});
+
 
 //Posts successfully and adds recipe. But catching a unexpected end of JSON input error
 addRecipeBtn.addEventListener("click", function() {
-    api.createRecipe(recipeName.value, fat.value, protein.value, carbs.value, calories.value, currentUser ).then(response => {
+    api.createRecipe(recipeName.value, fat.value, protein.value, carbs.value, calories.value, localStorage.getItem("userId") ).then(response => {
         console.log('Recipe created successfully:', response);
         location.reload();
     })

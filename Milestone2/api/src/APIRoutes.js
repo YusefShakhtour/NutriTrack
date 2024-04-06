@@ -77,6 +77,11 @@ router.post('/users', (req, res) => {
 
 
 
+// Get current user
+router.get('/users/current', TokenMiddleware, (req, res) => {
+  res.json(req.user);
+})
+
 // Get a specific user  ***Made fix, test again 
 router.get('/users/:userId', TokenMiddleware, (req, res) => {
   let userId = req.params.userId;

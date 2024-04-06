@@ -113,6 +113,10 @@ const createRecipe = (name, fat, protein, carbs, cals, user_id) => {
   return HTTPClient.post(`${API_BASE}/users/recipes`, data);
 };
 
+const getCurrentUser = () => {
+  return HTTPClient.get(`${API_BASE}/users/current`);
+}
+
 // update recipe
 const updateRecipe = (recipe) => {
   return fetch(`${API_BASE}/recipes/${recipe.id}`, {
@@ -180,7 +184,8 @@ export default {
   updateRecipe,
   getRecipes,
   getRecipebyId,
-  getRecipesbyUser
+  getRecipesbyUser,
+  getCurrentUser
 }
 
 
