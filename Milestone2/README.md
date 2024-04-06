@@ -3,8 +3,8 @@
 
 
 [ Milestone Report Here ]
-We got a lot done this miletsone. We have a good idea of the APIs we need to have implemented and have implemented around 70 - 80% of said endpoints. User authentication as well as registartion is also fully functional with proper validation on the frotnend. The frontend is interacting properly with the backend as well as the database. Information is being populated properly based on the user that is authenticated. The main portion of functionality that is not yet completed is consuming meals and tracking that consumption with visual graphs.
-
+We got a lot done this miletsone. We have a good idea of the APIs we need to have implemented and have implemented around 70 - 80% of said endpoints. User authentication is being handled with a token middleware and JWT as we did in lecture. Registration is also fully functional with proper validation on the frontend. The frontend is interacting properly with the backend as well as the database. Information is being populated properly based on the user that is authenticated. The main portion of functionality that is not yet completed is consuming meals and tracking that consumption with visual graphs.
+[ER Diagram]()
 
 Pages | Status | Wireframe
 ------|--------|---------
