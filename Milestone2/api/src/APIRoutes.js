@@ -180,7 +180,7 @@ router.get('/users/stats/:userId', (req, res) => {
 });
 
 //Create user stats
-router.post('/user/stats', (req, res) => {
+router.post('/users/stats', (req, res) => {
   let stats = req.body;
   StatsDAO.createStats(stats).then(stats => {
     res.json(stats);

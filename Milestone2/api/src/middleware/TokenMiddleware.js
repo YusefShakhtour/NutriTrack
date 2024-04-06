@@ -1,10 +1,11 @@
 //generate signature for token sent and received from client
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 const TOKEN_COOKIE_NAME = "Colorie-Token";
 // In a real application, you will never hard-code this secret and you will
 // definitely never commit it to version control, ever
-const API_SECRET = "60d0954e20eaa0c02b382171c33c53bc18522cc6d4805eaa02e182b0";
+const API_SECRET = process.env.API_SECRET_KEY;
 
 exports.TokenMiddleware = (req, res, next) => {
   // We will look for the token in two places:
@@ -12,10 +13,10 @@ exports.TokenMiddleware = (req, res, next) => {
   // 2. The Authorization header in case of a different client
   let token = null;
   // if no cookie extract the token from the Authorization header
-  if(!req.cookies[TOKEN_COOKIE_NAME]) {
+  if (!req.cookies[TOKEN_COOKIE_NAME]) {
     //No cookie, so let's check Authorization header
     const authHeader = req.get('Authorization');
-    if(authHeader && authHeader.startsWith("Bearer ")) {
+    if (authHeader && authHeader.startsWith("Bearer ")) {
       //Format should be "Bearer token" but we only need the token
       token = authHeader.split(" ")[1].trim();
     }
@@ -25,8 +26,8 @@ exports.TokenMiddleware = (req, res, next) => {
     token = req.cookies[TOKEN_COOKIE_NAME]; //Get session Id from cookie
   }
 
-  if(!token) { // If we don't have a token
-    res.status(401).json({error: 'Not authenticated'});
+  if (!token) { // If we don't have a token
+    res.status(401).json({ error: 'Not authenticated' });
     return;
   }
 
@@ -39,8 +40,8 @@ exports.TokenMiddleware = (req, res, next) => {
     req.user = decoded.user;
     next(); //Make sure we call the next middleware
   }
-  catch(err) { //Token is invalid
-    res.status(401).json({error: 'Not authenticated'});
+  catch (err) { //Token is invalid
+    res.status(401).json({ error: 'Not authenticated' });
     return;
   }
 

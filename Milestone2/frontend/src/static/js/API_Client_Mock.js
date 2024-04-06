@@ -57,16 +57,16 @@ const getUsersbyId = (userId) => {
 
 // create user
 const createUser = (firstName, lastName, username, password) => {
-    const data = {
-      first_name : firstName,
-      last_name : lastName,
-      username : username,
-      password : password
+  const data = {
+    first_name: firstName,
+    last_name: lastName,
+    username: username,
+    password: password
 
-    }
-    console.log(data);
+  }
+  console.log(data);
 
-    return HTTPClient.post(`${API_BASE}/users`, data);
+  return HTTPClient.post(`${API_BASE}/users`, data);
 
 };
 
@@ -101,12 +101,12 @@ const deleteUser = (userId) => {
 // create recipe
 const createRecipe = (name, fat, protein, carbs, cals, user_id) => {
   const data = {
-    name : name,
-    fat : fat,
-    protein : protein,
-    carbs : carbs,
-    cals : cals,
-    user_id : user_id
+    name: name,
+    fat: fat,
+    protein: protein,
+    carbs: carbs,
+    cals: cals,
+    user_id: user_id
   }
   console.log(data);
 
@@ -172,6 +172,39 @@ const getRecipesbyUser = (userId) => {
     .catch(handleError);
 }
 
+const getUserStats = (userId) => {
+  return HTTPClient.get(`${API_BASE}/users/stats/${userId}`);
+}
+// (user_id, height, weight, cal_goal, protein_goal, carb_goal, fat_goal)
+const createUserStats = (user_id, height, weight, cal_goal, protein_goal, carb_goal, fat_goal) => {
+  const data = {
+    user_id: user_id,
+    height: height,
+    weight: weight,
+    cal_goal: cal_goal,
+    protein_goal: protein_goal,
+    carb_goal: carb_goal,
+    fat_goal: fat_goal
+  }
+  console.log(data);
+
+  return HTTPClient.post(`${API_BASE}/users/stats`, data)
+}
+
+const updateUserStats = (user_id, height, weight, cal_goal, protein_goal, carb_goal, fat_goal) => {
+  const data = {
+    user_id: user_id,
+    height: height,
+    weight: weight,
+    cal_goal: cal_goal,
+    protein_goal: protein_goal,
+    carb_goal: carb_goal,
+    fat_goal: fat_goal
+  }
+  console.log(data);
+
+  return HTTPClient.put(`${API_BASE}/users/stats`, data)
+}
 
 export default {
   login,
@@ -185,86 +218,8 @@ export default {
   getRecipes,
   getRecipebyId,
   getRecipesbyUser,
-  getCurrentUser
+  getCurrentUser,
+  getUserStats,
+  createUserStats,
+  updateUserStats
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

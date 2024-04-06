@@ -8,12 +8,12 @@ app.use(express.static(__dirname + '/static'));
 
 const html_dir = __dirname + '/static/';
 
-app.get('/login', (req, res) => {
-  res.sendFile(`${html_dir}login.html`);
+app.get('/', (req, res) => {
+  res.sendFile(`${html_dir}dashboard.html`);
 });
 
-app.get('/dashboard', (req, res) => {
-  res.sendFile(`${html_dir}dashboard.html`);
+app.get('/login', (req, res) => {
+  res.sendFile(`${html_dir}login.html`);
 });
 
 app.get('/addRecipe', (req, res) => {
