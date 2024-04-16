@@ -1,0 +1,14 @@
+nav a {
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
+li:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+body {
+    background-color: #eee;
+}
+

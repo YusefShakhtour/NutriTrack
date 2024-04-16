@@ -1,0 +1,39 @@
+li:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+body {
+    background-color: #eee
+}
+
+.goals {
+    font-size: xx-large;
+}
+
+.figure1 img {
+    background-color: white;
+}
+
+.figure2 img {
+    background-color: white;
+}
+
+.figure3 img {
+    background-color: white;
+}
+
+.goals {
+    /* background-color: white; */
+    margin-bottom: 30px
+}
+
+.recContainer {
+    background-color: white;
+    /* height: 45vh; */
+}
+
+nav a {
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
