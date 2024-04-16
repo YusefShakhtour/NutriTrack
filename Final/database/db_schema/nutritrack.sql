@@ -70,7 +70,7 @@ INSERT INTO `recipes` (`rec_id`, `name`, `fat`, `protein`, `carbs`, `cals`, `use
 CREATE TABLE IF NOT EXISTS `meals` (
   `meals_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
-  `meal_num` int(11) unsigned NOT NULL,
+  `date` DATE NOT NULL,
   `rec_id` int(11) unsigned NOT NULL,
    PRIMARY KEY (`meals_id`)
 
@@ -85,12 +85,12 @@ CREATE TABLE IF NOT EXISTS `meals` (
   be the current day.
 **/
 DELETE FROM `meals`;
-INSERT INTO `meals` (`meals_id`, `user_id`, `meal_num`, `rec_id`) VALUES
-  (1, 1, 1, 1),
-  (2, 1, 1, 2),
-  (3, 1, 2, 1),
-  (4, 2, 1, 3),
-  (5, 2, 1, 4);
+INSERT INTO `meals` (`meals_id`, `user_id`, `date`, `rec_id`) VALUES
+  (1, 1, '2024-04-15', 1),
+  (2, 1, '2024-04-15', 2),
+  (3, 1, '2024-04-15', 1),
+  (4, 2, '2024-04-15', 3),
+  (5, 2, '2024-04-15', 4);
 
 /* STATS */
 CREATE TABLE IF NOT EXISTS `stats` (

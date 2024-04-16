@@ -206,6 +206,45 @@ const updateUserStats = (user_id, height, weight, cal_goal, protein_goal, carb_g
   return HTTPClient.put(`${API_BASE}/users/stats`, data)
 }
 
+// create meal
+const createMeal = (user_id, date, rec_id) => {
+  const data = {
+    user_id: user_id,
+    date: date,
+    rec_id: rec_id
+  }
+  console.log(data);
+
+  return HTTPClient.post(`${API_BASE}/users/meals`, data);
+};
+
+// get todays Meals
+const getDailyMeals = (userId) => {
+  // return HTTPClient.get(`${API_BASE}/users/${userId}/meals/daily`, data);
+  return fetch(API_BASE + `/users/${userId}/meals/daily`)
+    .then(checkResponse)
+    .then(res => {
+      return res.json();
+    })
+    .then(meals => {
+      return meals;
+    })
+    .catch(handleError);
+};
+
+// Get weekly meals
+const getWeeklyMeals = (userId) => {
+  return fetch(API_BASE + `/users/${userId}/meals/weekly`)
+    .then(checkResponse)
+    .then(res => {
+      return res.json();
+    })
+    .then(meals => {
+      return meals;
+    })
+    .catch(handleError);
+};
+
 export default {
   login,
   getUsers,
@@ -221,5 +260,8 @@ export default {
   getCurrentUser,
   getUserStats,
   createUserStats,
-  updateUserStats
+  updateUserStats,
+  createMeal,
+  getDailyMeals,
+  getWeeklyMeals
 }

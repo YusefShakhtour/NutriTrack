@@ -5,9 +5,12 @@ const cookieParser = require('cookie-parser');
 const RecipeDAO = require('./db/RecipeDAO');
 const UserDAO = require('./db/UserDAO');
 const StatsDAO = require('./db/StatsDAO');
+const MealsDAO = require('./db/MealsDAO');
+
 router.use(cookieParser());
 
 const { TokenMiddleware, generateToken, removeToken } = require('./middleware/TokenMiddleware');
+const Meal = require('./db/models/Meal');
 
 
 // Default
@@ -117,7 +120,7 @@ router.get('/users/:userId/recipes', (req, res) => {
 });
 
 // Get a specific recipe given a recipe id    **Not working
-router.get('users/recipes/:rec_id', (req, res) => {
+router.get('users/recipes/:rec_id', TokenMiddleware, (req, res) => {
   let rec_id = req.params.rec_id;
   RecipeDAO.getRecipeById(rec_id).then(recipe => {
     res.json(recipe);
@@ -127,7 +130,7 @@ router.get('users/recipes/:rec_id', (req, res) => {
 });
 
 // Create a recipe  **Working
-router.post('/users/recipes', (req, res) => {
+router.post('/users/recipes', TokenMiddleware, (req, res) => {
   let name = req.body.name;
   console.log(name);
 
@@ -170,7 +173,7 @@ router.post('/users/recipes', (req, res) => {
  */
 
 //Get a users' stats  **Working
-router.get('/users/stats/:userId', (req, res) => {
+router.get('/users/stats/:userId', TokenMiddleware, (req, res) => {
   let userId = req.params.userId;
   StatsDAO.getStatsByUserId(userId).then(stats => {
     res.json(stats);
@@ -180,7 +183,7 @@ router.get('/users/stats/:userId', (req, res) => {
 });
 
 //Create user stats
-router.post('/users/stats', (req, res) => {
+router.post('/users/stats', TokenMiddleware, (req, res) => {
   let stats = req.body;
   StatsDAO.createStats(stats).then(stats => {
     res.json(stats);
@@ -192,7 +195,7 @@ router.post('/users/stats', (req, res) => {
 
 //Update a users' stats   **Not updating
 //Whose stats are being updated? I think we need an id paramter in the url
-router.put('/users/stats', (req, res) => {
+router.put('/users/stats', TokenMiddleware, (req, res) => {
   let stats = req.body;
   StatsDAO.updateStats(stats).then(stats => {
     res.json(stats);
@@ -206,6 +209,49 @@ router.put('/users/stats', (req, res) => {
  * MEAL ENDPOINTS
  */
 
-// TODO: Implement meal endpoints
+// Push a meal 
+router.post('/users/meals', TokenMiddleware, (req, res) => {
+  let user_id = req.body.user_id;
+  let date = req.body.date;
+  let rec_id = req.body.rec_id;
+
+  let meal = {
+    user_id: user_id,
+    date: date,
+    rec_id: rec_id
+  }
+
+  console.log(meal);
+
+  MealsDAO.createMeal(meal).then(meal => {
+    res.json(meal);
+  }).catch(err => {
+    res.status(500).json({ error: 'Internal server error' });
+  });
+});
+
+// Delete meal for a user
+router.delete('/users/:mealId/meals', TokenMiddleware, (req, res) => {
+  let meal_id = req.params.mealId;
+  MealsDAO.deleteMeal(meal_id).then(meals => {
+    res.json();
+  });
+});
+
+// Get all meals for thhe current day for a user given theirr id
+router.get('/users/:userId/meals/daily', TokenMiddleware, (req, res) => {
+  let user_id = req.params.userId;
+  MealsDAO.getDailyMeals(user_id).then(meals => {
+    res.json(meals);
+  });
+});
+
+// Get meals past 7 days given a user's id
+router.get('/users/:userId/meals/weekly', TokenMiddleware, (req, res) => {
+  let user_id = req.params.userId;
+  MealsDAO.getWeeklyMeals(user_id).then(meals => {
+    res.json(meals);
+  });
+});
 
 module.exports = router;
