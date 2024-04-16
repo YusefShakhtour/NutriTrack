@@ -4,7 +4,9 @@
 
 [ Milestone Report Here ]
 We got a lot done this miletsone. We have a good idea of the APIs we need to have implemented and have implemented around 70 - 80% of said endpoints. User authentication is being handled with a token middleware and JWT as we did in lecture. Registration is also fully functional with proper validation on the frontend. The frontend is interacting properly with the backend as well as the database. Information is being populated properly based on the user that is authenticated. The main portion of functionality that is not yet completed is consuming meals and tracking that consumption with visual graphs.
-[ER Diagram]()
+
+Below is our ER Diagram. Each user has stats that are associated with them. Each user can also possess multiple recipes and consume multiple recipes. 
+![](https://github.ncsu.edu/engr-csc342/csc342-2024Spring-GroupM/blob/main/Milestone2/ER_Diagram.png)
 
 Pages | Status | Wireframe
 ------|--------|---------
