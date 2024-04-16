@@ -18,7 +18,11 @@ api.getCurrentUser().then(user => {
     //Loop through all user meals and add them to frontend
     api.getDailyMeals(localStorage.getItem("userId")).then(meals => {
         localStorage.setItem("dailyMeals", JSON.stringify(meals));
+        console.log(meals);
+        console.log(meals.length);
+
         for (let i = 0; i < meals.length; i++) {
+            console.log(meals[i]);
             addMeal(meals[i]);
         }
     });
@@ -54,14 +58,19 @@ function addRecipe(recipe) {
 function addMeal(meal) {
     let newMeal = document.createElement("li");
     newMeal.classList.add("mealItem");
-    let recipes = localStorage.getItem("recipes");
 
-    for (let i = 0; i < recipes.length; i++) {
-        if (recipes[i].rec_id == meal.rec_id) {
-            console.log(recipes);
-            console.log("hit");
-            newMeal.innerHTML = recipes[i].name;
-        }
+    // Retrieve recipes from local storage
+    const recipesJSON = localStorage.getItem('recipes');
+
+    const recipes = JSON.parse(recipesJSON);
+    if (!recipes) {
+        return;
+    } else {
+        recipes.forEach(recipe => {
+            if (recipe.rec_id == meal.rec_id) {
+                newMeal.innerHTML = recipe.name;
+            }
+        });
     }
     consumptionList.append(newMeal);
 }
@@ -71,11 +80,6 @@ function addMeal(meal) {
  */
 
 // Pie chart
-
-// 
-
-
-
 (async function () {
     const xValues = ["Fat", "Protein", "Carbohydrates"];
     const yValues = [];
@@ -85,15 +89,29 @@ function addMeal(meal) {
     let totalProtein = 0;
     let totalCarbs = 0;
 
-    // // Iterate through all the meals in local storage weekly meals
-    // for (int i = 0; i < localStorage.getItem("weeklyMeals"); i++) {
-    //     // Get the recipe for the meal
-    //     let meal = localStorage.getItem("weeklyMeals")[i];
-    //     for (int )
-    //         totalFat += recipe.fat;
-    //     totalProtein += recipe.protein;
-    //     totalCarbs += recipe.carbs;
-    // }
+    // Retrieve meals from local storage
+    const mealsJSON = localStorage.getItem('weeklyMeals');
+    const meals = JSON.parse(mealsJSON);
+
+    // Retrieve recipes from local storage
+    const recipesJSON = localStorage.getItem('recipes');
+    const recipes = JSON.parse(recipesJSON);
+
+    // Assuming meals and recipes are not null
+    meals.forEach(meal => {
+        recipes.forEach(recipe => {
+            if (meal.rec_id == recipe.rec_id) {
+                console.log("hit");
+                totalFat += recipe.fat;
+                totalProtein += recipe.protein;
+                totalCarbs += recipe.carbs;
+            }
+        });
+    });
+
+    yValues.push(totalFat);
+    yValues.push(totalProtein);
+    yValues.push(totalCarbs);
 
     new Chart(
         document.getElementById('distribution'),
