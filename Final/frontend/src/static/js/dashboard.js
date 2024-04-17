@@ -5,7 +5,7 @@ let recipeList = document.querySelector(".recipeList");
 let consumptionList = document.querySelector(".consumptionList");
 
 //TODO Change to current user session
-await api.getCurrentUser().then(user => {
+api.getCurrentUser().then(user => {
     localStorage.setItem("userId", user.user_id);
     api.getRecipebyId(localStorage.getItem("userId")).then(recipes => {
         localStorage.setItem("recipes", JSON.stringify(recipes));
@@ -26,27 +26,12 @@ await api.getCurrentUser().then(user => {
     });
 
     api.getWeeklyMeals(localStorage.getItem("userId")).then(meals => {
+        console.log("Setting local storage for weekly meals");
         localStorage.setItem("weeklyMeals", JSON.stringify(meals));
     });
-
-
-
+}).then(() => {
+    generateCharts();
 });
-
-let recItem = document.querySelectorAll(".recItem");
-let mealItem = document.querySelector(".mealItem");
-// console.log("RecItems: " + recItem[0]);
-
-// //Add click event listener to everything in recipe container
-// recItem.addEventListener('click', function (e) {
-//     e.preventDefault();
-// });
-
-// //Add click event listener to everything in consumption container
-// mealItem.addEventListener('click', function (e) {
-//     e.preventDefault();
-// });
-
 
 let recContainer = document.querySelector(".recContainer");
 recContainer.addEventListener("click", function (e) {
@@ -59,12 +44,14 @@ recContainer.addEventListener("click", function (e) {
             if (recipe.name == e.target.innerHTML) {
                 console.log("Found recipe");
                 console.log(formatDate());
-                api.createMeal(localStorage.getItem("userId"), formatDate(), recipe.rec_id);
-                window.location.reload();
+                api.createMeal(localStorage.getItem("userId"), formatDate(), recipe.rec_id).then(() => {
+                    window.location.reload();
+                });
             }
         });
     }
 });
+
 
 //Add recipe HTML
 function addRecipe(recipe) {
@@ -115,306 +102,275 @@ function addMeal(meal) {
 }
 
 // when one of the meals is clicked, it will be deleted
-
 let conContainer = document.querySelector(".consumptionContainer");
 conContainer.addEventListener("click", function (e) {
     if (e.target.classList.contains("mealItem")) {
         console.log("click");
         api.deleteMeal(e.target.id);
         window.location.reload();
-
-        // let meals = JSON.parse(localStorage.getItem("daily"));
-
-        // recipes.forEach(recipe => {
-        //     if (recipe.name == e.target.innerHTML) {
-        //         console.log("Found recipe");
-
-        //         console.log(formatDate());
-        //         api.createMeal(localStorage.getItem("userId"), formatDate(), recipe.rec_id);
-        //         window.location.reload();
-        //     }
-        // });
     }
 });
-
-// consumptionList.addEventListener('click', function (e) {
-//     let meal = e.target;
-//     let mealName = meal.innerHTML;
-
-//     // Retrieve meals from local storage
-//     const mealsJSON = localStorage.getItem('dailyMeals');
-//     const meals = JSON.parse(mealsJSON);
-
-//     meals.forEach(meal => {
-//         // console.log(meal);
-//         // console.log(mealName);
-//         if (mealName == meal.name) {
-//             // console.log(meal.meals_id);
-//             api.deleteMeal(meal.meals_id).then(() => {
-//                 meal.remove();
-//             });
-//         }
-//     });
-// });
-
-
 
 /**
  * CHART CREATION
  */
-// Pie chart
-const xValues = ["Fat", "Protein", "Carbohydrates"];
-const yValues = [];
-const barColors = ["red", "green", "blue"];
+function generateCharts() {
+    // Pie chart
+    const xValues = ["Fat", "Protein", "Carbohydrates"];
+    const yValues = [];
+    const barColors = ["red", "green", "blue"];
 
-let totalFat = 0;
-let totalProtein = 0;
-let totalCarbs = 0;
+    let totalFat = 0;
+    let totalProtein = 0;
+    let totalCarbs = 0;
 
-// Retrieve meals from local storage
-const mealsJSON = localStorage.getItem('weeklyMeals');
-const meals = JSON.parse(mealsJSON);
+    // Retrieve meals from local storage
+    const mealsJSON = localStorage.getItem('weeklyMeals');
+    const meals = JSON.parse(mealsJSON);
+    console.log("Grabbing meals for chart");
+    console.log(meals);
 
-// Retrieve recipes from local storage
-const recipesJSON = localStorage.getItem('recipes');
-const recipes = JSON.parse(recipesJSON);
+    // Retrieve recipes from local storage
+    const recipesJSON = localStorage.getItem('recipes');
+    const recipes = JSON.parse(recipesJSON);
 
-// Assuming meals and recipes are not null
-meals.forEach(meal => {
-    recipes.forEach(recipe => {
-        if (meal.rec_id == recipe.rec_id) {
-            totalFat += recipe.fat;
-            totalProtein += recipe.protein;
-            totalCarbs += recipe.carbs;
-        }
+    // Assuming meals and recipes are not null
+    meals.forEach(meal => {
+        recipes.forEach(recipe => {
+            if (meal.rec_id == recipe.rec_id) {
+                totalFat += recipe.fat;
+                totalProtein += recipe.protein;
+                totalCarbs += recipe.carbs;
+            }
+        });
     });
-});
 
-yValues.push(totalFat);
-yValues.push(totalProtein);
-yValues.push(totalCarbs);
+    yValues.push(totalFat);
+    yValues.push(totalProtein);
+    yValues.push(totalCarbs);
 
-new Chart(
-    document.getElementById('distribution'),
-    {
-        type: "pie",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Weekly Distribution of Macro-nutrients"
+    const pieChart = new Chart(
+        document.getElementById('distribution'),
+        {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Weekly Distribution of Macro-nutrients"
+                }
             }
         }
-    }
-);
+    );
 
-// Stats
-const fat_goal = [];
-const protein_goal = [];
-const carb_goal = [];
-const cal_goal = [];
-await api.getUserStats(localStorage.getItem("userId")).then(stats => {
+    // Stats
+    const fat_goal = [];
+    const protein_goal = [];
+    const carb_goal = [];
+    const cal_goal = [];
+    api.getUserStats(localStorage.getItem("userId")).then(stats => {
+        for (let x = 0; x < 7; x++) {
+            fat_goal.push(stats[0].fat_goal);
+            protein_goal.push(stats[0].protein_goal);
+            carb_goal.push(stats[0].carb_goal);
+            cal_goal.push(stats[0].cal_goal);
+        }
+    });
+
+    // Day labels
+    const labels = [];
     for (let x = 0; x < 7; x++) {
-        fat_goal.push(stats[0].fat_goal);
-        protein_goal.push(stats[0].protein_goal);
-        carb_goal.push(stats[0].carb_goal);
-        cal_goal.push(stats[0].cal_goal);
+        labels.push(formatDatePrevious(x));
     }
-});
 
-// Day labels
-const labels = [];
-for (let x = 0; x < 7; x++) {
-    labels.push(formatDatePrevious(x));
-}
+    // Fat chart
+    const L7fat = [];
+    let daysFat = 0;
 
-// Fat chart
-const L7fat = [];
-let daysFat = 0;
+    for (let x = 0; x < 7; x++) {
+        meals.forEach(meal => {
+            if (meal.date.split("T")[0] == formatDatePrevious(x)) {
+                recipes.forEach(recipe => {
+                    if (meal.rec_id == recipe.rec_id) {
+                        daysFat += recipe.fat;
+                    }
+                });
+            }
+        });
+        L7fat.push(daysFat);
+        daysFat = 0;
+    }
 
-for (let x = 0; x < 7; x++) {
-    meals.forEach(meal => {
-        if (meal.date.split("T")[0] == formatDatePrevious(x)) {
-            recipes.forEach(recipe => {
-                if (meal.rec_id == recipe.rec_id) {
-                    daysFat += recipe.fat;
+    new Chart(
+        document.getElementById('weeklyFat'),
+        {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: 'Fat Consumed',
+                    data: L7fat,
+                    // this dataset is drawn below
+                    order: 2
+                }, {
+                    label: 'Fat Goal',
+                    data: fat_goal,
+                    type: 'line',
+                    // this dataset is drawn on top
+                    order: 1
+                }],
+                labels: labels
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Weekly Fat Consumption"
                 }
-            });
-        }
-    });
-    L7fat.push(daysFat);
-    daysFat = 0;
-}
-
-new Chart(
-    document.getElementById('weeklyFat'),
-    {
-        type: 'bar',
-        data: {
-            datasets: [{
-                label: 'Fat Consumed',
-                data: L7fat,
-                // this dataset is drawn below
-                order: 2
-            }, {
-                label: 'Fat Goal',
-                data: fat_goal,
-                type: 'line',
-                // this dataset is drawn on top
-                order: 1
-            }],
-            labels: labels
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Weekly Fat Consumption"
             }
         }
+    )
+
+
+    // Protein chart
+    const L7protein = [];
+    let daysProtein = 0;
+
+    for (let x = 0; x < 7; x++) {
+        meals.forEach(meal => {
+            if (meal.date.split("T")[0] == formatDatePrevious(x)) {
+                recipes.forEach(recipe => {
+                    if (meal.rec_id == recipe.rec_id) {
+                        daysProtein += recipe.protein;
+                    }
+                });
+            }
+        });
+        L7protein.push(daysProtein);
+        daysProtein = 0;
     }
-)
 
-
-// Protein chart
-const L7protein = [];
-let daysProtein = 0;
-
-for (let x = 0; x < 7; x++) {
-    meals.forEach(meal => {
-        if (meal.date.split("T")[0] == formatDatePrevious(x)) {
-            recipes.forEach(recipe => {
-                if (meal.rec_id == recipe.rec_id) {
-                    daysProtein += recipe.protein;
+    new Chart(
+        document.getElementById('weeklyProtein'),
+        {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: 'Protein Consumed',
+                    data: L7protein,
+                    // this dataset is drawn below
+                    order: 2
+                }, {
+                    label: 'Protein Goal',
+                    data: protein_goal,
+                    type: 'line',
+                    // this dataset is drawn on top
+                    order: 1
+                }],
+                labels: labels
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Weekly Protein Consumption"
                 }
-            });
-        }
-    });
-    L7protein.push(daysProtein);
-    daysProtein = 0;
-}
-
-new Chart(
-    document.getElementById('weeklyProtein'),
-    {
-        type: 'bar',
-        data: {
-            datasets: [{
-                label: 'Protein Consumed',
-                data: L7protein,
-                // this dataset is drawn below
-                order: 2
-            }, {
-                label: 'Protein Goal',
-                data: protein_goal,
-                type: 'line',
-                // this dataset is drawn on top
-                order: 1
-            }],
-            labels: labels
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Weekly Protein Consumption"
             }
         }
+    )
+
+    // Carbs chart
+    const L7carbs = [];
+    let daysCarbs = 0;
+
+    for (let x = 0; x < 7; x++) {
+        meals.forEach(meal => {
+            if (meal.date.split("T")[0] == formatDatePrevious(x)) {
+                recipes.forEach(recipe => {
+                    if (meal.rec_id == recipe.rec_id) {
+                        daysCarbs += recipe.carbs;
+                    }
+                });
+            }
+        });
+        L7carbs.push(daysCarbs);
+        daysCarbs = 0;
     }
-)
 
-// Carbs chart
-const L7carbs = [];
-let daysCarbs = 0;
-
-for (let x = 0; x < 7; x++) {
-    meals.forEach(meal => {
-        if (meal.date.split("T")[0] == formatDatePrevious(x)) {
-            recipes.forEach(recipe => {
-                if (meal.rec_id == recipe.rec_id) {
-                    daysCarbs += recipe.carbs;
+    new Chart(
+        document.getElementById('weeklyCarbs'),
+        {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: 'Carbs Consumed',
+                    data: L7carbs,
+                    // this dataset is drawn below
+                    order: 2
+                }, {
+                    label: 'Carb Goal',
+                    data: carb_goal,
+                    type: 'line',
+                    // this dataset is drawn on top
+                    order: 1
+                }],
+                labels: labels
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Weekly Carb Consumption"
                 }
-            });
-        }
-    });
-    L7carbs.push(daysCarbs);
-    daysCarbs = 0;
-}
-
-new Chart(
-    document.getElementById('weeklyCarbs'),
-    {
-        type: 'bar',
-        data: {
-            datasets: [{
-                label: 'Carbs Consumed',
-                data: L7carbs,
-                // this dataset is drawn below
-                order: 2
-            }, {
-                label: 'Carb Goal',
-                data: carb_goal,
-                type: 'line',
-                // this dataset is drawn on top
-                order: 1
-            }],
-            labels: labels
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Weekly Carb Consumption"
             }
         }
+    )
+
+    // Cals chart
+    const L7cals = [];
+    let daysCals = 0;
+
+    for (let x = 0; x < 7; x++) {
+        meals.forEach(meal => {
+            if (meal.date.split("T")[0] == formatDatePrevious(x)) {
+                recipes.forEach(recipe => {
+                    if (meal.rec_id == recipe.rec_id) {
+                        daysCals += recipe.cals;
+                    }
+                });
+            }
+        });
+        L7cals.push(daysCals);
+        daysCals = 0;
     }
-)
 
-// Cals chart
-const L7cals = [];
-let daysCals = 0;
-
-for (let x = 0; x < 7; x++) {
-    meals.forEach(meal => {
-        if (meal.date.split("T")[0] == formatDatePrevious(x)) {
-            recipes.forEach(recipe => {
-                if (meal.rec_id == recipe.rec_id) {
-                    daysCals += recipe.cals;
+    new Chart(
+        document.getElementById('weeklyCals'),
+        {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: 'Calories Consumed',
+                    data: L7cals,
+                    // this dataset is drawn below
+                    order: 2
+                }, {
+                    label: 'Calorie Goal',
+                    data: cal_goal,
+                    type: 'line',
+                    // this dataset is drawn on top
+                    order: 1
+                }],
+                labels: labels
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Weekly Calorie Consumption"
                 }
-            });
-        }
-    });
-    L7cals.push(daysCals);
-    daysCals = 0;
-}
-
-new Chart(
-    document.getElementById('weeklyCals'),
-    {
-        type: 'bar',
-        data: {
-            datasets: [{
-                label: 'Calories Consumed',
-                data: L7cals,
-                // this dataset is drawn below
-                order: 2
-            }, {
-                label: 'Calorie Goal',
-                data: cal_goal,
-                type: 'line',
-                // this dataset is drawn on top
-                order: 1
-            }],
-            labels: labels
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Weekly Calorie Consumption"
             }
         }
-    }
-)
+    )
+}
