@@ -218,6 +218,14 @@ const createMeal = (user_id, date, rec_id) => {
   return HTTPClient.post(`${API_BASE}/users/meals`, data);
 };
 
+// delete meal
+const deleteMeal = (mealId) => {
+  // return HTTPClient.delete(`${API_BASE}/users/${mealId}/meals`);
+  return fetch(API_BASE + `/users/${mealId}/meals`, {
+    method: 'DELETE'
+  }).catch(handleError);
+};
+
 // get todays Meals
 const getDailyMeals = (userId) => {
   // return HTTPClient.get(`${API_BASE}/users/${userId}/meals/daily`, data);
@@ -262,6 +270,7 @@ export default {
   createUserStats,
   updateUserStats,
   createMeal,
+  deleteMeal,
   getDailyMeals,
   getWeeklyMeals
 }
