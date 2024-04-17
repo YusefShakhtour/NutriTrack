@@ -86,11 +86,11 @@ CREATE TABLE IF NOT EXISTS `meals` (
 **/
 DELETE FROM `meals`;
 INSERT INTO `meals` (`meals_id`, `user_id`, `date`, `rec_id`) VALUES
-  (1, 1, '2024-04-15', 1),
-  (2, 1, '2024-04-15', 2),
-  (3, 1, '2024-04-15', 1),
-  (4, 2, '2024-04-15', 3),
-  (5, 2, '2024-04-15', 4);
+  (1, 1, '2024-04-16', 1),
+  (2, 1, '2024-04-16', 2),
+  (3, 1, '2024-04-16', 1),
+  (4, 2, '2024-04-16', 3),
+  (5, 2, '2024-04-16', 4);
 
 /* STATS */
 CREATE TABLE IF NOT EXISTS `stats` (

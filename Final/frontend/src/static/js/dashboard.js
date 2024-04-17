@@ -18,11 +18,11 @@ api.getCurrentUser().then(user => {
     //Loop through all user meals and add them to frontend
     api.getDailyMeals(localStorage.getItem("userId")).then(meals => {
         localStorage.setItem("dailyMeals", JSON.stringify(meals));
-        console.log(meals);
-        console.log(meals.length);
+        // console.log(meals);
+        // console.log(meals.length);
 
         for (let i = 0; i < meals.length; i++) {
-            console.log(meals[i]);
+            // console.log(meals[i]);
             addMeal(meals[i]);
         }
     });
@@ -33,8 +33,9 @@ api.getCurrentUser().then(user => {
 
 });
 
-let recItem = document.querySelector(".recItem");
+let recItem = document.querySelectorAll(".recItem");
 let mealItem = document.querySelector(".mealItem");
+// console.log("RecItems: " + recItem[0]);
 
 // //Add click event listener to everything in recipe container
 // recItem.addEventListener('click', function (e) {
@@ -101,7 +102,6 @@ function addMeal(meal) {
     meals.forEach(meal => {
         recipes.forEach(recipe => {
             if (meal.rec_id == recipe.rec_id) {
-                console.log("hit");
                 totalFat += recipe.fat;
                 totalProtein += recipe.protein;
                 totalCarbs += recipe.carbs;
