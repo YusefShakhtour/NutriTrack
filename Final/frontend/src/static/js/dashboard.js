@@ -28,9 +28,9 @@ api.getCurrentUser().then(user => {
     api.getWeeklyMeals(localStorage.getItem("userId")).then(meals => {
         console.log("Setting local storage for weekly meals");
         localStorage.setItem("weeklyMeals", JSON.stringify(meals));
+    }).then(() => {
+        generateCharts();
     });
-}).then(() => {
-    generateCharts();
 });
 
 let recContainer = document.querySelector(".recContainer");
