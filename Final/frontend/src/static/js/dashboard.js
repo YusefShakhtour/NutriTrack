@@ -388,6 +388,26 @@ function generateCharts() {
         }
     )
 
+    let calGoal = document.getElementById('cal-goal');
+    let proteinGoal = document.getElementById('protein-goal');
+    api.getUserStats(localStorage.getItem("userId")).then(stats => {
+        let caloricDailyGoal = stats[0].cal_goal;
+        let calDiff = caloricDailyGoal - L7cals[0];
+        if (calDiff > 0) {
+            calGoal.innerHTML = "You need to consume " + calDiff + " more calories to reach your goal";
+        } else {
+            calGoal.innerHTML = "You have exceeded your goal by " + Math.abs(calDiff) + " calories";
+        }
+
+        let proteinDailyGoal = stats[0].protein_goal;
+        let proteinDiff = proteinDailyGoal - L7protein[0];
+        if (proteinDiff > 0) {
+            proteinGoal.innerHTML = "You need to consume " + proteinDiff + " more grams of protein to reach your goal";
+        } else {
+            proteinGoal.innerHTML = "You have exceeded your protein goal by " + Math.abs(proteinDiff) + " grams";
+        }
+    });
+
     setTimeout(function () {
         proteinChart.update();
         carbsChart.update();

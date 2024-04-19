@@ -18,13 +18,12 @@
     </script>
 
     <title>Dashboard</title>
-
-  <!-- BEGIN INSTALLABLE APP-->
-  <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials" />
-  <meta name="theme-color" content="#252831">
-  <link rel="apple-touch-icon" href="./images/NutriTrack_192x192.png">
-  <link rel="icon" type="image/png" href="./images/NutriTrack_192x192.png">
-  <!-- END INSTALLABLE APP-->
+    <!-- BEGIN INSTALLABLE APP-->
+    <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials" />
+    <meta name="theme-color" content="#252831">
+    <link rel="apple-touch-icon" href="./images/NutriTrack_192x192.png">
+    <link rel="icon" type="image/png" href="./images/NutriTrack_192x192.png">
+    <!-- END INSTALLABLE APP-->
 </head>
 
 <body>
@@ -64,36 +63,38 @@
                 <ul class="consumptionList">
                 </ul>
             </div>
-            <figure class="figure1 col-lg-7 card m-2">
-                <div style="width: 800px;"><canvas id="distribution"></canvas></div>
-            </figure>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <figure class="figure3 col-lg-6 card m-2">
-                <div style="width: 800px;"><canvas id="weeklyProtein"></canvas></div>
-            </figure>
-            <figure class="figure3 col-lg-6 card m-2">
-                <div style="width: 800px;"><canvas id="weeklyCarbs"></canvas></div>
-            </figure>
-            <figure class="figure3 col-lg-6 card m-2">
-                <div style="width: 800px;"><canvas id="weeklyFat"></canvas></div>
-            </figure>
-            <figure class="figure3 col-lg-6 card m-2">
-                <div style="width: 800px;"><canvas id="weeklyCals"></canvas></div>
-            </figure>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="goals col-lg-6">
-                You need x more protein to hit your daily protein goal.
+            <div class="figure-container col-lg-7 card m-2">
+                <div class="chart-container pb-3">
+                    <canvas id="distribution"></canvas>
+                </div>
             </div>
-            <div class="goals col-lg-5">
-                You need x more calories to hit your daily calorie goal.
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <figure class="figure3 col-lg-6 card m-2">
+                <div class="chart-container"><canvas id="weeklyProtein"></canvas></div>
+            </figure>
+            <figure class="figure3 col-lg-6 card m-2">
+                <div class="chart-container"><canvas id="weeklyCarbs"></canvas></div>
+            </figure>
+            <figure class="figure3 col-lg-6 card m-2">
+                <div class="chart-container"><canvas id="weeklyFat"></canvas></div>
+            </figure>
+            <figure class="figure3 col-lg-6 card m-2">
+                <div class="chart-container"><canvas id="weeklyCals"></canvas></div>
+            </figure>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="goals col-lg-6" id="protein-goal">
+
+            </div>
+            <div class="goals col-lg-5" id="cal-goal">
+
             </div>
         </div>
     </div>

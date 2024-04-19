@@ -35,7 +35,7 @@ function check() {
                     api.createUser(firstName.value, lastName.value, username.value, password.value)
                         .then(response => {
                             console.log('User created successfully:', response);
-                            window.location.href = '/login.html';
+                            window.location.href = '/login';
                         })
                         .catch(err => {
                             console.log("something went wrong" + err);
