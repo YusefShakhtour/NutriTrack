@@ -28,15 +28,27 @@ api.getCurrentUser().then(user => {
 
 api.getUserStats(localStorage.getItem("userId")).then(stats => {
   console.log(stats);
+  console.log(stats.length);
   if (stats.length == 0) {
     saveBtn.addEventListener("click", () => {
-      api.createUserStats(localStorage.getItem("userId"), height.value, weight.value, calories.value, protein.value, carbs.value, fat.value).then(response => {
-        console.log('Stats created successfully:', response);
-        location.reload();
+
+      api.createUserStats(localStorage.getItem("userId"), height.value, weight.value, calories.value, protein.value, carbs.value, fat.value)
+      .then(response => response.text()) // First, get the response as text
+      .then(text => {
+        if (!text) {
+          throw new Error('Received empty response body.');
+        } else{
+          const data = JSON.parse(text);
+          console.log("Stats creates successfully ",  data);
+          location.reload();
+        }
+       
       })
-        .catch(err => {
-          console.log("something went wrong" + err);
-        });
+      .catch(err => {
+        console.log("Something went wrong:", err);
+      });
+  
+  
     });
   }
   else {
@@ -46,6 +58,7 @@ api.getUserStats(localStorage.getItem("userId")).then(stats => {
     protein.value = stats[0].protein_goal;
     fat.value = stats[0].fat_goal;
     carbs.value = stats[0].carb_goal;
+    console.log(stats[0].height);
 
     saveBtn.addEventListener("click", () => {
       api.updateUserStats(localStorage.getItem("userId"), height.value, weight.value, calories.value, protein.value, carbs.value, fat.value).then(response => {

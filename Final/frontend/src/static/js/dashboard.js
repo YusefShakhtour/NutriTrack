@@ -390,7 +390,11 @@ function generateCharts() {
 
     let calGoal = document.getElementById('cal-goal');
     let proteinGoal = document.getElementById('protein-goal');
+    console.log("user_id is " + localStorage.getItem("userId"));
+    // if the user is new and
+    
     api.getUserStats(localStorage.getItem("userId")).then(stats => {
+        console.log(stats);
         let caloricDailyGoal = stats[0].cal_goal;
         let calDiff = caloricDailyGoal - L7cals[0];
         if (calDiff > 0) {
