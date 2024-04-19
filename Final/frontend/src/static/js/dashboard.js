@@ -1,6 +1,7 @@
 import api from './API_Client_Mock.js';
 
 
+
 let recipeList = document.querySelector(".recipeList");
 let consumptionList = document.querySelector(".consumptionList");
 
@@ -118,7 +119,7 @@ function generateCharts() {
     // Pie chart
     const xValues = ["Fat", "Protein", "Carbohydrates"];
     const yValues = [];
-    const barColors = ["red", "green", "blue"];
+    const barColors = ["yellow", "red", "orange"];
 
     let totalFat = 0;
     let totalProtein = 0;
@@ -207,7 +208,7 @@ function generateCharts() {
         daysFat = 0;
     }
 
-    new Chart(
+    let fatChart = new Chart(
         document.getElementById('weeklyFat'),
         {
             type: 'bar',
@@ -215,11 +216,14 @@ function generateCharts() {
                 datasets: [{
                     label: 'Fat Consumed',
                     data: L7fat,
+                    backgroundColor: ["yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow" ],
                     // this dataset is drawn below
                     order: 2
                 }, {
                     label: 'Fat Goal',
                     data: fat_goal,
+                    fill: false,
+                    borderColor: 'black',
                     type: 'line',
                     // this dataset is drawn on top
                     order: 1
@@ -254,19 +258,22 @@ function generateCharts() {
         daysProtein = 0;
     }
 
-    new Chart(
+    let proteinChart = new Chart(
         document.getElementById('weeklyProtein'),
         {
             type: 'bar',
             data: {
                 datasets: [{
                     label: 'Protein Consumed',
+                    backgroundColor: ["red", "red", "red", "red", "red", "red", "red" ],
                     data: L7protein,
                     // this dataset is drawn below
                     order: 2
                 }, {
                     label: 'Protein Goal',
                     data: protein_goal,
+                    fill: false,
+                    borderColor: 'black',
                     type: 'line',
                     // this dataset is drawn on top
                     order: 1
@@ -300,7 +307,7 @@ function generateCharts() {
         daysCarbs = 0;
     }
 
-    new Chart(
+    let carbsChart = new Chart(
         document.getElementById('weeklyCarbs'),
         {
             type: 'bar',
@@ -308,12 +315,15 @@ function generateCharts() {
                 datasets: [{
                     label: 'Carbs Consumed',
                     data: L7carbs,
+                    backgroundColor: ["orange", "orange", "orange", "orange", "orange", "orange", "orange" ],
                     // this dataset is drawn below
                     order: 2
                 }, {
                     label: 'Carb Goal',
                     data: carb_goal,
                     type: 'line',
+                    fill: false,
+                    borderColor: 'black',
                     // this dataset is drawn on top
                     order: 1
                 }],
@@ -346,23 +356,26 @@ function generateCharts() {
         daysCals = 0;
     }
 
-    new Chart(
+
+    let calsChart = new Chart(
         document.getElementById('weeklyCals'),
         {
             type: 'bar',
             data: {
                 datasets: [{
+                        label: 'Calorie Goal',
+                        data: cal_goal,
+                        type: 'line',
+                        fill: false,
+                        borderColor: 'black'
+                        // this dataset is drawn on top
+                    }, {
                     label: 'Calories Consumed',
                     data: L7cals,
+                    backgroundColor: ['grey', 'grey', 'grey', 'grey', 'grey', 'grey', 'grey']
                     // this dataset is drawn below
-                    order: 2
-                }, {
-                    label: 'Calorie Goal',
-                    data: cal_goal,
-                    type: 'line',
-                    // this dataset is drawn on top
-                    order: 1
-                }],
+                }
+            ],
                 labels: labels
             },
             options: {
@@ -373,4 +386,12 @@ function generateCharts() {
             }
         }
     )
+
+    setTimeout(function () {
+        proteinChart.update();
+        carbsChart.update();
+        fatChart.update();
+        pieChart.update();
+        calsChart.update();
+    }, 100);
 }
