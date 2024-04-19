@@ -107,8 +107,9 @@ let conContainer = document.querySelector(".consumptionContainer");
 conContainer.addEventListener("click", function (e) {
     if (e.target.classList.contains("mealItem")) {
         console.log("click");
-        api.deleteMeal(e.target.id);
-        window.location.reload();
+        api.deleteMeal(e.target.id).then(() => {
+            window.location.reload();
+        });
     }
 });
 
@@ -216,7 +217,7 @@ function generateCharts() {
                 datasets: [{
                     label: 'Fat Consumed',
                     data: L7fat,
-                    backgroundColor: ["yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow" ],
+                    backgroundColor: ["yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow"],
                     // this dataset is drawn below
                     order: 2
                 }, {
@@ -265,7 +266,7 @@ function generateCharts() {
             data: {
                 datasets: [{
                     label: 'Protein Consumed',
-                    backgroundColor: ["red", "red", "red", "red", "red", "red", "red" ],
+                    backgroundColor: ["red", "red", "red", "red", "red", "red", "red"],
                     data: L7protein,
                     // this dataset is drawn below
                     order: 2
@@ -315,7 +316,7 @@ function generateCharts() {
                 datasets: [{
                     label: 'Carbs Consumed',
                     data: L7carbs,
-                    backgroundColor: ["orange", "orange", "orange", "orange", "orange", "orange", "orange" ],
+                    backgroundColor: ["orange", "orange", "orange", "orange", "orange", "orange", "orange"],
                     // this dataset is drawn below
                     order: 2
                 }, {
@@ -363,19 +364,19 @@ function generateCharts() {
             type: 'bar',
             data: {
                 datasets: [{
-                        label: 'Calorie Goal',
-                        data: cal_goal,
-                        type: 'line',
-                        fill: false,
-                        borderColor: 'black'
-                        // this dataset is drawn on top
-                    }, {
+                    label: 'Calorie Goal',
+                    data: cal_goal,
+                    type: 'line',
+                    fill: false,
+                    borderColor: 'black'
+                    // this dataset is drawn on top
+                }, {
                     label: 'Calories Consumed',
                     data: L7cals,
                     backgroundColor: ['grey', 'grey', 'grey', 'grey', 'grey', 'grey', 'grey']
                     // this dataset is drawn below
                 }
-            ],
+                ],
                 labels: labels
             },
             options: {

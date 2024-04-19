@@ -20,5 +20,13 @@ app.get('/addRecipe', (req, res) => {
   res.sendFile(`${html_dir}addRecipe.html`);
 });
 
+app.get('/profile', (req, res) => {
+  res.sendFile(`${html_dir}profile.html`);
+});
+
+app.get('/offline', (req, res) => {
+  res.sendFile(`${html_dir}offline.html`);
+});
+
 // As our server to listen for incoming connections
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
