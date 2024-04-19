@@ -65,41 +65,43 @@ function log(...data) {
       if(event.request.method === "GET") {
         //Only intercept (and cache) GET API requests
         event.respondWith(
-          cacheFirst(event.request)
+          // cacheFirst(event.request)
+          networkFirst(event.request)
         );
       }
     }
     else {
       //If we are here, this was not a call to our API
       event.respondWith(
-        cacheFirst(event.request)
+        // cacheFirst(event.request)
+        networkFirst(event.request)
       );
     }
   
   });
   
   
-  function cacheFirst(request) {
-    return caches.match(request)
-    .then(response => {
-      //Return a response if we have one cached. Otherwise, get from the network
-      return response || fetchAndCache(request);
-    })
-    .catch(error => {
-      return caches.match('/offline');
-    })
-  }
-  
-  // function networkFirst(request) {
-  //   return fetchAndCache(request)
-  //   .catch(error => {
-  //     //If we get an error, try to return from cache
-  //     return caches.match(request);
+  // function cacheFirst(request) {
+  //   return caches.match(request)
+  //   .then(response => {
+  //     //Return a response if we have one cached. Otherwise, get from the network
+  //     return response || fetchAndCache(request);
   //   })
   //   .catch(error => {
   //     return caches.match('/offline');
   //   })
   // }
+  
+  function networkFirst(request) {
+    return fetchAndCache(request)
+    .catch(error => {
+      //If we get an error, try to return from cache
+      return caches.match(request);
+    })
+    .catch(error => {
+      return caches.match('/offline');
+    })
+  }
   
   function fetchAndCache(request) {
     return fetch(request).then(response => {
