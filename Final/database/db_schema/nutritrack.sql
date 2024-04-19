@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=MariaDB DEFAULT CHARSET=utf8mb4;
 
 DELETE FROM `user`;
--- INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `username`, `password`, `salt`, `avatar`) VALUES
--- 	(1, 'Stu', 'Dent', 'student', '83d9bdb5e20f3571b087db9aabf190a296741c3e864d7742f35658cfccc1b79c4599aad25084aa9a28c649a50c92244227b3e53e197621301d619d1ea01873c4', '48c8947f69c054a5caa934674ce8881d02bb18fb59d5a63eeaddff735b0e9', 'https://robohash.org/veniamdoloresenim.png?size=64x64&set=set1'),
--- 	(2, 'Gra', 'Duate', 'graduate', 'e289219c34f9a32ebc82393f09719b7f34872de95463242b5ffe8bb4b11a5fe7d454f9f5d082c8207c5d69b220ba06624b4bb15ffa05cc7d7d53c43f9e96da6a', '801e87294783281ae49fc8287a0fd86779b27d7972d3e84f0fa0d826d7cb67dfefc', 'https://robohash.org/nullaautemin.png?size=64x64&set=set1');
+INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `username`, `password`, `salt`, `avatar`) VALUES
+    (1, 'Stu', 'Dent', 'student', '83d9bdb5e20f3571b087db9aabf190a296741c3e864d7742f35658cfccc1b79c4599aad25084aa9a28c649a50c92244227b3e53e197621301d619d1ea01873c4', '48c8947f69c054a5caa934674ce8881d02bb18fb59d5a63eeaddff735b0e9', 'https://robohash.org/veniamdoloresenim.png?size=64x64&set=set1'),
+    (2, 'Gra', 'Duate', 'graduate', 'e289219c34f9a32ebc82393f09719b7f34872de95463242b5ffe8bb4b11a5fe7d454f9f5d082c8207c5d69b220ba06624b4bb15ffa05cc7d7d53c43f9e96da6a', '801e87294783281ae49fc8287a0fd86779b27d7972d3e84f0fa0d826d7cb67dfefc', 'https://robohash.org/nullaautemin.png?size=64x64&set=set1');
 
 /* RECIPES */
 CREATE TABLE IF NOT EXISTS `recipes` (
@@ -45,26 +45,26 @@ CREATE TABLE IF NOT EXISTS `recipes` (
 
 **/
 DELETE FROM `recipes`;
--- INSERT INTO `recipes` (`rec_id`, `name`, `fat`, `protein`, `carbs`, `cals`, `user_id`) VALUES
---             (1, 'Mac N Cheese', 5, 10, 12, 250, 1),
---             (2, 'Chicken Alfredo', 8, 15, 15, 300, 1),
---             (3, 'Spaghetti', 6, 7, 12, 300, 2),
---             (4, 'Scrambled Eggs', 6, 8, 3, 150, 2);
+INSERT INTO `recipes` (`rec_id`, `name`, `fat`, `protein`, `carbs`, `cals`, `user_id`) VALUES
+            (1, 'Mac N Cheese', 5, 10, 12, 250, 1),
+            (2, 'Chicken Alfredo', 8, 15, 15, 300, 1),
+            (3, 'Spaghetti', 6, 7, 12, 300, 2),
+            (4, 'Scrambled Eggs', 6, 8, 3, 150, 2);
 
 /* USER TO RECIPE */
--- CREATE TABLE IF NOT EXISTS `user_recipes` (
---   `user_recipe_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
---   `user_id` int(11) unsigned NOT NULL,
---   `recipe_id` int(11) unsigned NOT NULL,
---   PRIMARY KEY (`user_recipe_id`)
--- ) ENGINE=MariaDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `user_recipes` (
+  `user_recipe_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `recipe_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`user_recipe_id`)
+) ENGINE=MariaDB DEFAULT CHARSET=utf8mb4;
 
--- DELETE FROM `user_recipes`;
--- INSERT INTO `user_recipes` (`user_recipe_id`, `user_id`, `recipe_id`) VALUES
---   (1, 1, 1),
---   (2, 1, 2),
---   (3, 2, 3),
---   (4, 2, 4);
+DELETE FROM `user_recipes`;
+INSERT INTO `user_recipes` (`user_recipe_id`, `user_id`, `recipe_id`) VALUES
+  (1, 1, 1),
+  (2, 1, 2),
+  (3, 2, 3),
+  (4, 2, 4);
 
 /* MEALS/CONSUMPTION */
 CREATE TABLE IF NOT EXISTS `meals` (
@@ -85,12 +85,12 @@ CREATE TABLE IF NOT EXISTS `meals` (
   be the current day.
 **/
 DELETE FROM `meals`;
--- INSERT INTO `meals` (`meals_id`, `user_id`, `date`, `rec_id`) VALUES
---   (1, 1, '2024-04-16', 1),
---   (2, 1, '2024-04-16', 2),
---   (3, 1, '2024-04-16', 1),
---   (4, 2, '2024-04-16', 3),
---   (5, 2, '2024-04-16', 4);
+INSERT INTO `meals` (`meals_id`, `user_id`, `date`, `rec_id`) VALUES
+  (1, 1, '2024-04-16', 1),
+  (2, 1, '2024-04-16', 2),
+  (3, 1, '2024-04-16', 1),
+  (4, 2, '2024-04-16', 3),
+  (5, 2, '2024-04-16', 4);
 
 /* STATS */
 CREATE TABLE IF NOT EXISTS `stats` (
@@ -114,6 +114,6 @@ CREATE TABLE IF NOT EXISTS `stats` (
     30 grams of carbs, and 25g of fat per day respectively.
 **/
 DELETE FROM `stats`;
--- INSERT INTO `stats` (`stats_id`, `user_id`, `height`, `weight`, `cal_goal`, `protein_goal`, `carb_goal`, `fat_goal`) VALUES
---     (1, 1, 72, 180, 2000, 150, 50, 20),
---     (2, 2, 68, 150, 1300, 120, 30, 25);
+INSERT INTO `stats` (`stats_id`, `user_id`, `height`, `weight`, `cal_goal`, `protein_goal`, `carb_goal`, `fat_goal`) VALUES
+    (1, 1, 72, 180, 2000, 150, 50, 20),
+    (2, 2, 68, 150, 1300, 120, 30, 25);

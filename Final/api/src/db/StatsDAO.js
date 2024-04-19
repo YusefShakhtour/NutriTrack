@@ -15,14 +15,14 @@ function createStats(stats) {
   return db.query('INSERT INTO stats (user_id, height, weight, cal_goal, protein_goal, carb_goal, fat_goal) VALUES (?, ?, ?, ?, ?, ?, ?)',
     [stats.user_id, stats.height, stats.weight, stats.cal_goal, stats.protein_goal, stats.carb_goal, stats.fat_goal]).then(({ results }) => {
       console.log(results);
-      getStatsByUserId(results.insertId);
+      return getStatsByUserId(results.insertId);
     });
 }
 
 function updateStats(stats) {
   return db.query('UPDATE stats SET height=?, weight=?, cal_goal=?, protein_goal=?, carb_goal=?, fat_goal=? WHERE user_id=?',
     [stats.height, stats.weight, stats.cal_goal, stats.protein_goal, stats.carb_goal, stats.fat_goal, stats.user_id]).then(({ results }) => {
-      getStatsByUserId(stats.user_id);
+      return getStatsByUserId(stats.user_id);
     });
 }
 
