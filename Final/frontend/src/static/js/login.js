@@ -7,6 +7,14 @@ const password = document.querySelector('#password');
 
 const errorBox = document.querySelector('#errorBox');
 
+// Modal pop-up function
+function alertModal() {
+    let modal = new bootstrap.Modal('#offlineModal', {
+        keyboard: false
+    });
+    modal.show();
+}
+
 (function () {
     'use strict'
 
@@ -27,8 +35,12 @@ const errorBox = document.querySelector('#errorBox');
                             window.location.href = '/';
                         })
                         .catch(error => {
+                            console.error('Error logging in:', error);
                             errorBox.classList.remove('hidden');
                             errorBox.innerHTML = "Invalid username or password";
+                            if (error.message === "Failed to fetch") {
+                                alertModal();
+                            }
                         });
                 }
                 form.classList.add('was-validated')

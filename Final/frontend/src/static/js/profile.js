@@ -33,22 +33,25 @@ api.getUserStats(localStorage.getItem("userId")).then(stats => {
     saveBtn.addEventListener("click", () => {
 
       api.createUserStats(localStorage.getItem("userId"), height.value, weight.value, calories.value, protein.value, carbs.value, fat.value)
-      .then(response => response.text()) // First, get the response as text
-      .then(text => {
-        if (!text) {
-          throw new Error('Received empty response body.');
-        } else{
-          const data = JSON.parse(text);
-          console.log("Stats creates successfully ",  data);
-          location.reload();
-        }
-       
-      })
-      .catch(err => {
-        console.log("Something went wrong:", err);
-      });
-  
-  
+        .then(response => response.text()) // First, get the response as text
+        .then(text => {
+          if (!text) {
+            throw new Error('Received empty response body.');
+          } else {
+            const data = JSON.parse(text);
+            console.log("Stats creates successfully: ", data);
+            location.reload();
+          }
+
+        })
+        .catch(err => {
+          console.log("Something went wrong: ", err);
+          if (error.message === "Failed to fetch") {
+            alertModal();
+          }
+        });
+
+
     });
   }
   else {
@@ -67,7 +70,18 @@ api.getUserStats(localStorage.getItem("userId")).then(stats => {
       })
         .catch(err => {
           console.log("something went wrong" + err);
+          if (error.message === "Failed to fetch") {
+            alertModal();
+          }
         });
     });
   }
 });
+
+// Modal pop-up function
+function alertModal() {
+  let modal = new bootstrap.Modal('#offlineModal', {
+    keyboard: false
+  });
+  modal.show();
+}

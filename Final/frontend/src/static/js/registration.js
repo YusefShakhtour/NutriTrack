@@ -17,6 +17,14 @@ function check() {
     return true;
 }
 
+// Modal pop-up function
+function alertModal() {
+    let modal = new bootstrap.Modal('#offlineModal', {
+        keyboard: false
+    });
+    modal.show();
+}
+
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (function () {
     'use strict'
@@ -39,6 +47,9 @@ function check() {
                         })
                         .catch(err => {
                             console.log("something went wrong" + err);
+                            if (error.message === "Failed to fetch") {
+                                alertModal();
+                            }
                         })
                 }
                 form.classList.add('was-validated')

@@ -47,12 +47,13 @@ recContainer.addEventListener("click", function (e) {
                 console.log(formatDate());
                 api.createMeal(localStorage.getItem("userId"), formatDate(), recipe.rec_id).then(() => {
                     window.location.reload();
+                }).catch(() => {
+                    alertModal();
                 });
             }
         });
     }
 });
-
 
 //Add recipe HTML
 function addRecipe(recipe) {
@@ -109,9 +110,19 @@ conContainer.addEventListener("click", function (e) {
         console.log("click");
         api.deleteMeal(e.target.id).then(() => {
             window.location.reload();
+        }).catch(() => {
+            alertModal();
         });
     }
 });
+
+// Modal pop-up function
+function alertModal() {
+    let modal = new bootstrap.Modal('#offlineModal', {
+        keyboard: false
+    });
+    modal.show();
+}
 
 /**
  * CHART CREATION
@@ -392,7 +403,7 @@ function generateCharts() {
     let proteinGoal = document.getElementById('protein-goal');
     console.log("user_id is " + localStorage.getItem("userId"));
     // if the user is new and
-    
+
     api.getUserStats(localStorage.getItem("userId")).then(stats => {
         console.log(stats);
         let caloricDailyGoal = stats[0].cal_goal;

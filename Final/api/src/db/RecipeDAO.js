@@ -22,11 +22,9 @@ function getRecipesByUserId(userId) {
 function createRecipe(recipe) {
   return db.query('INSERT INTO recipes (name, fat, protein, carbs, cals, user_id) VALUES (?, ?, ?, ?, ?, ?)',
     [recipe.name, recipe.fat, recipe.carbs, recipe.protein, recipe.cals, recipe.user_id]).then(({ results }) => {
-      getRecipeById(results.insertId);
+      return getRecipeById(results.insertId);
     });
 }
-
-// TODO: function updateRecipe(recipe)
 
 module.exports = {
   getRecipes: getRecipes,

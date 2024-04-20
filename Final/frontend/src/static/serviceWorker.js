@@ -28,7 +28,6 @@ self.addEventListener('install', event => {
         '/js/common.js',
         '/js/HTTPClient.js',
         '/js/login.js',
-        '/js/home.js',
         '/js/registration.js',
         '/js/profile.js',
         '/js/dashboard.js',

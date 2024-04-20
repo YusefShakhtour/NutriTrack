@@ -14,12 +14,12 @@
     crossorigin="anonymous"></script>
 
   <title>Add Recipe</title>
-    <!-- BEGIN INSTALLABLE APP-->
-    <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials" />
-    <meta name="theme-color" content="#252831">
-    <link rel="apple-touch-icon" href="./images/NutriTrack_192x192.png">
-    <link rel="icon" type="image/png" href="./images/NutriTrack_192x192.png">
-    <!-- END INSTALLABLE APP-->
+  <!-- BEGIN INSTALLABLE APP-->
+  <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials" />
+  <meta name="theme-color" content="#252831">
+  <link rel="apple-touch-icon" href="./images/NutriTrack_192x192.png">
+  <link rel="icon" type="image/png" href="./images/NutriTrack_192x192.png">
+  <!-- END INSTALLABLE APP-->
 </head>
 
 <body>
@@ -92,8 +92,27 @@
           </div>
         </div>
       </div>
-      <button id="addRecipeBtn" type="submit"> Add Recipe </button>
+      <button id="addRecipeBtn" type="button"> Add Recipe </button>
     </form>
+  </div>
+
+  <!-- Offline Modal -->
+  <div class="modal fade" id="offlineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">You're offline</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>The action you tried performing is currently unavailable. Please check your internet connection.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 
