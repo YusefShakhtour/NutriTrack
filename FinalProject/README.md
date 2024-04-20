@@ -1,20 +1,20 @@
 
 ### Team Member Contributions
 
-#### [Yusef]
+#### Yusef
 
 * Finishing core functionality (meal functionality)
 * Service workers
 * Installability
 * Style
 
-#### [Eman]
+#### Eman
 
 * Finishing core functionality (chart generation)
 * Service workers
 * Style
 
-#### [Nour]
+#### Nour
 
 * ServiceWorkers
 * Installability
