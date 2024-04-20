@@ -36,7 +36,7 @@ function alertModal() {
     Array.prototype.slice.call(forms)
         .forEach(function (form) {
             registerBtn.addEventListener('click', function (event) {
-                if (!form.checkValidity() && !check()) {
+                if (!form.checkValidity() || !check()) {
                     event.preventDefault()
                     event.stopPropagation()
                 } else {
