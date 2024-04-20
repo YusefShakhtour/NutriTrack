@@ -70,7 +70,7 @@ api.getUserStats(localStorage.getItem("userId")).then(stats => {
       })
         .catch(err => {
           console.log("something went wrong" + err);
-          if (error.message === "Failed to fetch") {
+          if (err.message === "Failed to fetch") {
             alertModal();
           }
         });

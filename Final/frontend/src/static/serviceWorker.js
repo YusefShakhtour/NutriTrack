@@ -14,6 +14,7 @@ self.addEventListener('install', event => {
       return cache.addAll([
         '/offline',
         //CSS
+        '/css/offline.css',
         '/css/addRecipe.css',
         '/css/dashboard.css',
         '/css/login.css',
@@ -21,6 +22,11 @@ self.addEventListener('install', event => {
         '/css/registration.css',
         '/css/styles.css',
         //Images
+        '/images/NutriTrack_1024x1024.png',
+        '/images/NutriTrack_512x512.png',
+        '/images/NutriTrack_384x384.png',
+        '/images/NutriTrack_256x256.png',
+        '/images/NutriTrack_192x192.png',
 
         //Scripts
         '/js/API_Client_Mock.js',

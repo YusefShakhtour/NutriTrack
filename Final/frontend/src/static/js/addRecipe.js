@@ -43,7 +43,7 @@ function alertModal() {
                         })
                         .catch(err => {
                             console.log("Something went wrong: " + err);
-                            if (error.message === "Failed to fetch") {
+                            if (err.message === "Failed to fetch") {
                                 alertModal();
                             }
                         })
