@@ -163,8 +163,14 @@ function generateCharts() {
                 }]
             },
             options: {
+                legend: {
+                    labels: {
+                         fontColor: 'black'
+                        }
+                     },
                 title: {
                     display: true,
+                    fontColor: 'black',
                     text: "Weekly Distribution of Macro-nutrients"
                 }
             }
@@ -232,10 +238,28 @@ function generateCharts() {
                 labels: labels
             },
             options: {
+                legend: {
+                    labels: {
+                         fontColor: 'black'
+                        }
+                     },
                 title: {
                     display: true,
+                    fontColor: 'black',
                     text: "Weekly Fat Consumption"
-                }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        },
+                    }],
+                  xAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        }
+                    }]
+                } 
             }
         }
     )
@@ -282,10 +306,28 @@ function generateCharts() {
                 labels: labels
             },
             options: {
+                legend: {
+                    labels: {
+                         fontColor: 'black'
+                        }
+                     },
                 title: {
                     display: true,
+                    fontColor: 'black',
                     text: "Weekly Protein Consumption"
-                }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        },
+                    }],
+                  xAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        }
+                    }]
+                } 
             }
         }
     )
@@ -331,10 +373,28 @@ function generateCharts() {
                 labels: labels
             },
             options: {
+                legend: {
+                    labels: {
+                         fontColor: 'black'
+                        }
+                     },
                 title: {
                     display: true,
+                    fontColor: 'black',
                     text: "Weekly Carb Consumption"
-                }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        },
+                    }],
+                  xAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        }
+                    }]
+                } 
             }
         }
     )
@@ -380,10 +440,28 @@ function generateCharts() {
                 labels: labels
             },
             options: {
+                legend: {
+                    labels: {
+                         fontColor: 'black'
+                        }
+                     },
                 title: {
                     display: true,
+                    fontColor: 'black',
                     text: "Weekly Calorie Consumption"
-                }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        },
+                    }],
+                  xAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        }
+                    }]
+                } 
             }
         }
     )
@@ -418,5 +496,5 @@ function generateCharts() {
         fatChart.update();
         pieChart.update();
         calsChart.update();
-    }, 100);
+    }, 1000);
 }
